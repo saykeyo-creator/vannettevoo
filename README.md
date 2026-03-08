@@ -166,7 +166,8 @@ Site runs at http://localhost:3000. Admin at http://localhost:3000/admin/login.
 - **Prisma 7** requires an adapter — we use `@prisma/adapter-pg`. You cannot do `new PrismaClient()` with zero arguments; it needs `{ adapter }`.
 - The `url` field is NOT in `schema.prisma` (Prisma 7 moved it). Connection string lives in `prisma.config.ts` (for CLI commands) and `src/lib/db.ts` (for runtime).
 - Generated client output is `src/generated/prisma/` — this folder is `.gitignored` and regenerated via `prisma generate` (runs automatically in `postinstall` and `build`).
-- `prisma db push` (not `prisma migrate deploy`) is used because we don't maintain migration files.
+- `prisma db push` (not `prisma migrate deploy`) is fine for local development to quickly sync your schema.
+- In production (Render), we use `prisma migrate deploy` with proper migration files in `prisma/migrations/` to prevent accidental data loss.
 
 ---
 
@@ -174,8 +175,8 @@ Site runs at http://localhost:3000. Admin at http://localhost:3000/admin/login.
 
 ### Test Suite Overview
 
-- **22 test files**, **186 tests** total
-- **169 unit/component tests** — run with mocked Prisma, no database needed
+- **22 test files**, **183 tests** total
+- **166 unit/component tests** — run with mocked Prisma, no database needed
 - **17 integration tests** — run against a real PostgreSQL database
 
 ### Run unit tests (no database needed)
@@ -206,7 +207,7 @@ Integration tests are **automatically skipped** when `TEST_DATABASE_URL` is not 
 2. **Returning patients** — second booking reuses existing patient record
 3. **Intake survey** — creates patient from nested survey data
 4. **Full patient journey** — booking → intake → progress survey → confirm → note → cancel
-5. **Name updates** — survey with same email updates patient name
+5. **Existing patients** — booking/survey with same email reuses patient without overwriting
 6. **Contact messages** — submit, fetch, mark read/unread round-trip
 7. **Calendar blocking** — single slots, full days, bulk ranges, deletion, availability API
 8. **Blocked time enforcement** — bookings rejected on blocked days/slots (409)
@@ -243,18 +244,44 @@ The project includes a `render.yaml` Blueprint that auto-provisions:
 
 ```
 npm install
-  → prisma generate          (generates Prisma client)
-  → prisma db push           (applies schema to PostgreSQL)
-  → next build               (builds Next.js app)
-  → npx tsx prisma/seed.ts   (seeds admin user if not exists)
+  → prisma generate                                 (generates Prisma client)
+  → prisma migrate resolve --applied 20260309_init  (baselines existing DB, no-op after first run)
+  → prisma migrate deploy                           (applies pending migrations safely)
+  → next build                                      (builds Next.js app)
+  → npx tsx prisma/seed.ts                          (seeds admin user if not exists)
 ```
 
 ### Render gotchas
 
 - **Free tier spins down** after 15 minutes of inactivity. First request after idle takes ~30 seconds.
-- **Free PostgreSQL** has a 1GB storage limit and expires after 90 days — upgrade or recreate.
+- **Free PostgreSQL expires after 90 days** — upgrade to the Starter plan ($7/month) before expiry to keep your data. Starter includes automatic daily backups with 7-day retention.
 - The `NEXTAUTH_URL` env var in `render.yaml` is set to `https://vannettevoo.onrender.com`. If your Render URL differs, update it in the Render dashboard under Environment.
 - Subsequent pushes to `main` trigger auto-deploy.
+
+### Upgrading the database (recommended for production)
+
+The free PostgreSQL plan has a 1GB storage limit and **expires after 90 days**. For real patient data:
+
+1. Go to [Render Dashboard](https://dashboard.render.com) → your database (`vannettevoo-db`)
+2. Click **Upgrade** → select **Starter** ($7/month)
+3. This enables:
+   - **Automatic daily backups** (7-day retention)
+   - **No expiry** — database persists indefinitely
+   - **Point-in-time recovery** (paid plans)
+
+### Manual database backup
+
+If you need a manual backup at any time, grab the **External Database URL** from Render Dashboard → your database → Connection Info, then run:
+
+```bash
+pg_dump "YOUR_EXTERNAL_DATABASE_URL" > backup_$(date +%Y-%m-%d).sql
+```
+
+To restore from a backup:
+
+```bash
+psql "YOUR_EXTERNAL_DATABASE_URL" < backup_2026-03-09.sql
+```
 
 ---
 
@@ -264,7 +291,7 @@ npm install
 
 | Method | Route              | Description                          |
 | ------ | ------------------ | ------------------------------------ |
-| POST   | `/api/book`        | Create booking (+ upsert patient)    |
+| POST   | `/api/book`        | Create booking (+ find/create patient) |
 | POST   | `/api/contact`     | Submit contact message               |
 | POST   | `/api/survey`      | Submit intake or progress survey     |
 | GET    | `/api/availability`| Get blocked times for a month (`?month=2026-03`) |
@@ -292,8 +319,9 @@ npm install
 | `src/lib/db.ts` | Prisma client singleton (uses `PrismaPg` adapter + `DATABASE_URL`) |
 | `src/lib/auth.ts` | NextAuth v5 config — credentials provider, JWT sessions |
 | `src/middleware.ts` | Protects `/admin/*` routes via `getToken` (Edge-compatible) |
-| `prisma.config.ts` | Prisma CLI config — tells `prisma db push` where the DB is |
+| `prisma.config.ts` | Prisma CLI config — tells `prisma migrate deploy` where the DB is |
 | `prisma/schema.prisma` | All database models |
+| `prisma/migrations/` | SQL migration files (applied by `prisma migrate deploy`) |
 | `prisma/seed.ts` | Creates default admin user |
 | `site-content.json` | All static content (conditions, services, copy) |
 | `render.yaml` | Render Blueprint for one-click deployment |
@@ -304,7 +332,7 @@ npm install
 
 ```bash
 npm run dev          # Start dev server (Turbopack)
-npm run build        # prisma generate + db push + next build
+npm run build        # prisma generate + migrate deploy + next build
 npm start            # Start production server
 npm test             # Run unit/component tests
 npm run test:integration  # Run integration tests (needs TEST_DATABASE_URL)
