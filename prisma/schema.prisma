@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+}
+
+model BlockedTime {
+  id        String   @id @default(cuid())
+  date      String   // YYYY-MM-DD
+  startTime String?  // e.g. "09:00" — null means entire day blocked
+  endTime   String?  // e.g. "12:00" — null means entire day blocked
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@index([date])
+}
+
+model Patient {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String?
+  dob       String?  // date of birth
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notes      PatientNote[]
+  surveys    SurveySubmission[]
+  bookings   Booking[]
+}
+
+model PatientNote {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId String
+
+  @@index([patientId])
+}
+
+model SurveySubmission {
+  id        String   @id @default(cuid())
+  type      String   // "intake" | "progress"
+  data      String   // JSON blob
+  createdAt DateTime @default(now())
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId String
+
+  @@index([patientId])
+}
+
+model Booking {
+  id        String   @id @default(cuid())
+  date      String   // YYYY-MM-DD
+  time      String
+  status    String   @default("pending") // pending | confirmed | cancelled
+  notes     String?
+  createdAt DateTime @default(now())
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId String
+
+  @@index([patientId])
+  @@index([date])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

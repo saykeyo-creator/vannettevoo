@@ -1,0 +1,711 @@
+{
+  "site": {
+    "name": "Dr Vannette Voo — Functional Neurology",
+    "tagline": "Brain-based rehabilitation on the Sunshine Coast. Restoring function through neuroplasticity.",
+    "location": "Sunshine Coast, Queensland, Australia",
+    "email": "hello@drvannettevoo.com",
+    "phone": "Contact us for details",
+    "clinicHours": {
+      "mondayToFriday": "9:00 AM – 5:00 PM",
+      "saturdaySunday": "Closed"
+    },
+    "copyright": "Dr Vannette Voo Functional Neurology. Sunshine Coast, QLD."
+  },
+
+  "navigation": [
+    { "label": "Home", "href": "/" },
+    { "label": "About", "href": "/about" },
+    { "label": "Conditions", "href": "/conditions" },
+    { "label": "Services", "href": "/services" },
+    { "label": "New Patients", "href": "/new-patient" },
+    { "label": "Book", "href": "/book" },
+    { "label": "Contact", "href": "/contact" }
+  ],
+
+  "pages": {
+    "home": {
+      "description": "The main landing page. Has a hero section, a conditions preview section, a how-it-works section, and a call-to-action section.",
+      "hero": {
+        "heading": "Restore Your Brain. Reclaim Your Life.",
+        "subtext": "Dr Vannette Voo uses functional neurology to find the root cause of your symptoms — then builds a drug-free, personalised rehab plan to help your brain heal.",
+        "buttons": [
+          { "label": "Start Your Journey", "href": "/new-patient" },
+          { "label": "See Conditions We Treat", "href": "/conditions" }
+        ],
+        "trustSignals": [
+          "Sunshine Coast Clinic",
+          "Drug-Free Approach",
+          "Personalised Care"
+        ]
+      },
+      "conditionsPreview": {
+        "heading": "Conditions We Treat",
+        "subtext": "Functional neurology addresses a range of brain and nervous-system conditions. Every plan is built around your unique neurology.",
+        "conditions": [
+          { "title": "Concussion & TBI", "description": "Post-concussion syndrome, traumatic brain injury recovery and long-term brain rehabilitation." },
+          { "title": "Dizziness & Vertigo", "description": "BPPV, vestibular neuritis, Ménière's and other causes of dizziness or imbalance." },
+          { "title": "Migraines & Headaches", "description": "Chronic migraine, tension headache and cervicogenic headache management." },
+          { "title": "Dysautonomia & POTS", "description": "Postural orthostatic tachycardia syndrome and autonomic nervous system dysfunction." },
+          { "title": "Balance Disorders", "description": "Vestibular hypofunction, cerebellar ataxia and age-related balance decline." },
+          { "title": "ADHD & Focus Issues", "description": "Attention regulation, executive-function support and focus improvement strategies." },
+          { "title": "Chronic Fatigue", "description": "Persistent fatigue, brain fog and post-viral fatigue including long COVID." },
+          { "title": "Developmental Delays", "description": "Primitive reflex integration, sensory processing and childhood neurological support." }
+        ],
+        "buttonLabel": "View All Conditions",
+        "buttonHref": "/conditions"
+      },
+      "howItWorks": {
+        "heading": "How It Works",
+        "steps": [
+          {
+            "number": "01",
+            "title": "Complete the Intake Survey",
+            "description": "Share your health history, symptoms, and goals through our secure online questionnaire so Dr Voo can prepare for your visit."
+          },
+          {
+            "number": "02",
+            "title": "Book Your Assessment",
+            "description": "Schedule a thorough 60-minute neurological assessment at our Sunshine Coast clinic at a time that works for you."
+          },
+          {
+            "number": "03",
+            "title": "Get Your Plan",
+            "description": "Receive a personalised, drug-free rehabilitation programme based on your unique neurological findings."
+          },
+          {
+            "number": "04",
+            "title": "Heal & Thrive",
+            "description": "Follow your tailored plan with ongoing support. Track your progress and adjust as your brain adapts and recovers."
+          }
+        ]
+      },
+      "cta": {
+        "heading": "Ready to Start Your Journey?",
+        "body": "Complete the intake survey so Dr Voo can prepare a personalised assessment. It only takes 10–15 minutes and it's the first step toward reclaiming your health.",
+        "buttonLabel": "Begin Your Intake Survey",
+        "buttonHref": "/survey/new"
+      }
+    },
+
+    "about": {
+      "description": "About page for Dr Vannette Voo. Contains her bio, guiding principles, and qualifications.",
+      "heading": "Meet Dr Vannette Voo",
+      "bio": [
+        "Dr Vannette Voo is a functional neurologist based on the Sunshine Coast, Queensland. She specialises in brain-based rehabilitation — using the science of neuroplasticity to help patients recover from concussion, chronic dizziness, migraines, dysautonomia, and other neurological conditions without drugs or surgery.",
+        "Her approach blends comprehensive neurological assessment with personalised rehabilitation protocols. Every treatment plan is built around each patient's unique brain — because no two nervous systems are the same.",
+        "With advanced post-graduate training in functional neurology and years of clinical experience, Dr Voo is passionate about helping people understand their brain, regain function, and get back to living the life they love."
+      ],
+      "guidingPrinciples": [
+        {
+          "title": "Brain-Based Approach",
+          "description": "Every treatment targets the specific areas of the brain and nervous system that need support."
+        },
+        {
+          "title": "Compassionate Care",
+          "description": "You are more than your diagnosis. We listen, we understand, and we walk this journey with you."
+        },
+        {
+          "title": "Drug-Free Solutions",
+          "description": "We harness your brain's natural ability to adapt and heal through targeted neurological rehabilitation."
+        },
+        {
+          "title": "Evidence-Informed",
+          "description": "Our methods are grounded in current neuroscience research and clinical best practice."
+        },
+        {
+          "title": "Patient Education",
+          "description": "Understanding your brain empowers you. We explain everything so you can take ownership of your recovery."
+        },
+        {
+          "title": "Continual Growth",
+          "description": "We invest in ongoing education and training to bring you the latest advances in functional neurology."
+        }
+      ],
+      "qualifications": [
+        "Doctor of Chiropractic",
+        "Post-Graduate Functional Neurology",
+        "Vestibular Rehabilitation",
+        "Concussion Management",
+        "Paediatric Neurodevelopment",
+        "Autonomic Nervous System Training"
+      ]
+    },
+
+    "conditions": {
+      "description": "A listing page for all 8 conditions treated. Each condition also has its own detail page.",
+      "heading": "Conditions We Treat",
+      "subtext": "Functional neurology addresses a wide range of brain and nervous system conditions. Every treatment plan is personalised to your unique neurological profile.",
+      "conditionsList": [
+        {
+          "slug": "concussion-tbi",
+          "title": "Concussion & TBI",
+          "shortDescription": "Post-concussion syndrome, traumatic brain injury recovery and long-term brain rehabilitation.",
+          "fullDescription": "A concussion is a mild traumatic brain injury caused by a bump, blow, or jolt to the head — or a hit to the body that causes the brain to move rapidly inside the skull. While most people recover within weeks, some develop Post-Concussion Syndrome (PCS), where symptoms persist for months or even years. Functional neurology offers targeted, brain-based rehabilitation to help restore normal function.",
+          "symptoms": [
+            "Persistent headaches or migraines",
+            "Dizziness or balance problems",
+            "Brain fog and difficulty concentrating",
+            "Light and sound sensitivity",
+            "Fatigue and sleep disturbances",
+            "Mood changes — irritability, anxiety, depression",
+            "Memory difficulties",
+            "Nausea or visual disturbances"
+          ],
+          "howWeHelp": "Dr Voo performs a comprehensive neurological examination to identify which areas of your brain have been affected. Your rehabilitation plan may include oculomotor (eye movement) exercises, vestibular therapy, cognitive drills, breathing protocols, and sensory integration — all tailored to your specific findings. The goal is to retrain the injured pathways and restore function using neuroplasticity."
+        },
+        {
+          "slug": "dizziness-vertigo",
+          "title": "Dizziness & Vertigo",
+          "shortDescription": "BPPV, vestibular neuritis, Ménière's and other causes of dizziness or imbalance.",
+          "fullDescription": "Dizziness and vertigo are among the most common reasons people seek neurological care. Whether it's a spinning sensation, a feeling of unsteadiness, or light-headedness, these symptoms often originate from dysfunction in the vestibular system — the inner ear and brain pathways responsible for balance and spatial orientation.",
+          "symptoms": [
+            "Spinning sensation (vertigo)",
+            "Feeling of unsteadiness or swaying",
+            "Light-headedness, especially when standing",
+            "Nausea or vomiting with movement",
+            "Difficulty focusing or reading",
+            "Feeling 'off' or disconnected from surroundings",
+            "Anxiety in busy visual environments (shopping centres, crowds)",
+            "Falls or near-falls"
+          ],
+          "howWeHelp": "Using detailed vestibular testing — including eye-movement analysis, positional testing, and balance assessments — Dr Voo identifies the precise cause of your dizziness. Treatment may include canalith repositioning manoeuvres (for BPPV), vestibular rehabilitation exercises, gaze stabilisation training, and habituation protocols to reduce sensitivity."
+        },
+        {
+          "slug": "migraines-headaches",
+          "title": "Migraines & Headaches",
+          "shortDescription": "Chronic migraine, tension headache and cervicogenic headache management.",
+          "fullDescription": "Migraines and chronic headaches affect millions of people worldwide and are one of the leading causes of disability. While medication can provide temporary relief, functional neurology looks deeper — examining the brainstem, cervical spine, vestibular system, and autonomic nervous system to find the neurological drivers behind your headaches.",
+          "symptoms": [
+            "Throbbing or pulsating head pain",
+            "Aura — visual disturbances before a migraine",
+            "Sensitivity to light, sound, or smell",
+            "Nausea or vomiting",
+            "Neck stiffness and tension",
+            "Fatigue before, during, or after episodes",
+            "Difficulty concentrating during attacks",
+            "Dizziness or vertigo with headaches (vestibular migraine)"
+          ],
+          "howWeHelp": "Dr Voo assesses brainstem function, eye movements, cervical spine mechanics, and autonomic regulation to understand what is driving your migraines. Treatment often includes specific eye-movement exercises, vestibular stimulation, breathing and vagus nerve protocols, cervical rehabilitation, and lifestyle guidance — all without medication."
+        },
+        {
+          "slug": "dysautonomia-pots",
+          "title": "Dysautonomia & POTS",
+          "shortDescription": "Postural orthostatic tachycardia syndrome and autonomic nervous system dysfunction.",
+          "fullDescription": "Dysautonomia is a dysfunction of the autonomic nervous system — the part of your nervous system that controls heart rate, blood pressure, digestion, temperature regulation, and other automatic functions. POTS (Postural Orthostatic Tachycardia Syndrome) is one of the most common forms, causing a rapid increase in heart rate upon standing.",
+          "symptoms": [
+            "Rapid heart rate on standing (tachycardia)",
+            "Dizziness or fainting when upright",
+            "Chronic fatigue and exercise intolerance",
+            "Brain fog and difficulty concentrating",
+            "Digestive issues — bloating, nausea, gastroparesis",
+            "Temperature regulation problems",
+            "Sleep disturbances",
+            "Anxiety-like symptoms without psychological cause"
+          ],
+          "howWeHelp": "Dr Voo uses autonomic testing, orthostatic assessments, and neurological examination to map your autonomic function. Rehabilitation may include vagus nerve stimulation techniques, specific breathing protocols, graded exercise and tilt training, oculomotor exercises, and strategies to improve autonomic regulation and resilience."
+        },
+        {
+          "slug": "balance-disorders",
+          "title": "Balance Disorders",
+          "shortDescription": "Vestibular hypofunction, cerebellar ataxia and age-related balance decline.",
+          "fullDescription": "Good balance requires seamless integration between your visual system, vestibular (inner ear) system, and proprioceptive (body position) system — all coordinated by the cerebellum and brainstem. When any of these systems are compromised, balance problems and increased fall risk result.",
+          "symptoms": [
+            "Unsteadiness when walking or turning",
+            "Difficulty walking in the dark",
+            "Feeling off-balance on uneven surfaces",
+            "Swaying or drifting to one side",
+            "Fear of falling",
+            "Difficulty with coordination and fine motor tasks",
+            "Worsening balance with fatigue",
+            "History of falls"
+          ],
+          "howWeHelp": "Dr Voo performs comprehensive balance testing including posturography, gait analysis, eye-movement assessment, and cerebellar function tests. Treatment targets the weak links in your balance system — whether vestibular, visual, proprioceptive, or cerebellar — with specific exercises designed to rebuild stability and confidence."
+        },
+        {
+          "slug": "adhd-focus",
+          "title": "ADHD & Focus Issues",
+          "shortDescription": "Attention regulation, executive-function support and focus improvement strategies.",
+          "fullDescription": "Attention and focus difficulties — whether formally diagnosed as ADHD or experienced as brain fog and executive dysfunction — often have a neurological basis. The prefrontal cortex, basal ganglia, and cerebellum all play critical roles in attention, planning, impulse control, and working memory. Functional neurology can identify which areas are underperforming.",
+          "symptoms": [
+            "Difficulty sustaining attention",
+            "Easily distracted",
+            "Trouble organising tasks and managing time",
+            "Forgetfulness in daily activities",
+            "Impulsivity — acting without thinking",
+            "Restlessness or hyperactivity",
+            "Difficulty completing tasks",
+            "Brain fog and mental fatigue"
+          ],
+          "howWeHelp": "Dr Voo assesses prefrontal cortex function, eye-movement control (which reflects frontal lobe activity), timing and rhythm, and cerebellar function. Rehabilitation may include specific cognitive exercises, interactive metronome, oculomotor training, sensory-motor integration, and strategies to enhance executive function naturally."
+        },
+        {
+          "slug": "chronic-fatigue",
+          "title": "Chronic Fatigue",
+          "shortDescription": "Persistent fatigue, brain fog and post-viral fatigue including long COVID.",
+          "fullDescription": "Chronic fatigue — whether labelled as Chronic Fatigue Syndrome (CFS/ME), post-viral fatigue, or long COVID — involves persistent exhaustion that isn't relieved by rest. The brain and nervous system are central to this condition. Dysfunctional brainstem activity, autonomic imbalance, neuroinflammation, and impaired mitochondrial function can all contribute.",
+          "symptoms": [
+            "Overwhelming fatigue not relieved by rest",
+            "Post-exertional malaise (crashing after activity)",
+            "Brain fog — difficulty thinking, concentrating, remembering",
+            "Unrefreshing sleep",
+            "Muscle and joint pain without swelling",
+            "Headaches",
+            "Sore throat and swollen lymph nodes",
+            "Sensitivity to light, sound, or temperature"
+          ],
+          "howWeHelp": "Dr Voo evaluates brainstem function, autonomic regulation, vestibular and oculomotor systems, and overall neurological resilience. Treatment is gentle and graded — starting within your energy envelope and gradually expanding capacity. Protocols may include vagus nerve work, breathing exercises, light vestibular stimulation, and cognitive pacing strategies."
+        },
+        {
+          "slug": "developmental-delays",
+          "title": "Developmental Delays",
+          "shortDescription": "Primitive reflex integration, sensory processing and childhood neurological support.",
+          "fullDescription": "Developmental delays in children can manifest as difficulties with motor skills, coordination, learning, behaviour, or sensory processing. Retained primitive reflexes — reflexes that should integrate during early development — are a common underlying factor. When these reflexes persist, they can interfere with higher brain function and development.",
+          "symptoms": [
+            "Delayed motor milestones (crawling, walking)",
+            "Poor coordination or clumsiness",
+            "Difficulty with reading, writing, or learning",
+            "Sensory processing issues (over- or under-sensitive)",
+            "Behavioural challenges — meltdowns, anxiety, rigidity",
+            "Poor balance and body awareness",
+            "Difficulty with social interaction",
+            "Bedwetting beyond age 5"
+          ],
+          "howWeHelp": "Dr Voo assesses primitive reflex integration, cerebellar function, sensory processing, eye-movement control, and overall neurodevelopmental status. Treatment involves specific reflex integration exercises, sensory-motor activities, balance and coordination work, and oculomotor training — all designed as child-friendly activities that support brain maturation."
+        }
+      ]
+    },
+
+    "services": {
+      "description": "A page listing the therapies and modalities Dr Voo uses, plus what to expect at a first visit.",
+      "heading": "Therapies & Modalities",
+      "introText": "Dr Voo draws on a range of evidence-informed techniques, choosing the right combination for each patient based on their neurological findings.",
+      "therapies": [
+        {
+          "title": "Oculomotor Rehabilitation",
+          "description": "Targeted eye-movement exercises that retrain neural pathways between the eyes, brainstem, and cortex. Used for concussion recovery, dizziness, reading difficulties, and focus issues."
+        },
+        {
+          "title": "Vestibular Rehabilitation",
+          "description": "Exercises and manoeuvres that restore balance and reduce dizziness by retraining the vestibular (inner-ear) system and its connections to the brain."
+        },
+        {
+          "title": "Cognitive Rehabilitation",
+          "description": "Structured brain exercises that improve attention, memory, processing speed, and executive function — essential for concussion recovery and ADHD management."
+        },
+        {
+          "title": "Autonomic Nervous System Training",
+          "description": "Protocols designed to improve the regulation of heart rate, blood pressure, digestion, and stress response — particularly important for dysautonomia and POTS."
+        },
+        {
+          "title": "Breathing & Vagus Nerve Therapy",
+          "description": "Specific breathing techniques and vagus nerve stimulation exercises that calm the nervous system, reduce inflammation, and support autonomic balance."
+        },
+        {
+          "title": "Sensory-Motor Integration",
+          "description": "Activities that improve the brain's ability to process sensory information (vision, touch, proprioception) and coordinate smooth, accurate movement."
+        },
+        {
+          "title": "Primitive Reflex Integration",
+          "description": "Targeted exercises to integrate retained primitive reflexes in children and adults, supporting better coordination, learning, and emotional regulation."
+        }
+      ],
+      "firstVisit": {
+        "heading": "What to Expect at Your First Visit",
+        "paragraphs": [
+          "Your first appointment is a comprehensive 60–90 minute consultation. Dr Voo will review the intake survey you completed beforehand, discuss your health history in detail, and perform a thorough neurological examination.",
+          "This assessment includes testing of your cranial nerves, eye movements, vestibular function, balance, coordination, reflexes, and cognitive function. The goal is to build a detailed map of how your brain and nervous system are functioning right now.",
+          "At the end of your assessment, Dr Voo will explain her findings in plain language, answer all your questions, and outline a personalised rehabilitation plan — including what exercises to do at home and how often to return for in-clinic sessions."
+        ]
+      }
+    },
+
+    "newPatient": {
+      "description": "An onboarding page for new patients. Shows 3 steps to get started: complete the intake survey, book an appointment, and attend the first visit. Also has a section for returning patients to do a progress check-in.",
+      "heading": "Getting Started Is Simple",
+      "subtext": "Dr Voo has asked you to complete a short intake survey before your first visit. This helps her prepare a personalised assessment so your appointment time is focused entirely on you.",
+      "buttonLabel": "Start Your Intake Survey",
+      "trustSignals": ["10–15 minutes", "Private & secure"],
+      "steps": [
+        {
+          "number": "01",
+          "title": "Complete the Intake Survey",
+          "description": "Fill out the online patient survey so Dr Voo can understand your health history, symptoms, and goals before we meet.",
+          "time": "10–15 minutes",
+          "buttonLabel": "Start Survey",
+          "buttonHref": "/survey/new"
+        },
+        {
+          "number": "02",
+          "title": "Book Your Appointment",
+          "description": "Choose a time that works for you. Your first consultation is a thorough 60-minute assessment where Dr Voo will review your survey and perform neurological testing.",
+          "time": "Pick a time",
+          "buttonLabel": "Book Now",
+          "buttonHref": "/book"
+        },
+        {
+          "number": "03",
+          "title": "Your First Visit",
+          "description": "Arrive ready for a comprehensive brain-based assessment. Dr Voo will explain your findings and create a personalised rehabilitation plan tailored to your neurology.",
+          "time": "60 minutes"
+        }
+      ],
+      "returningPatients": {
+        "heading": "Already a Patient?",
+        "text": "If Dr Voo has asked you to complete a progress check-in before your next appointment, use the link below.",
+        "buttonLabel": "Progress Check-In",
+        "buttonHref": "/survey/progress"
+      }
+    },
+
+    "book": {
+      "description": "An appointment booking page with a 3-step flow: pick a date from a calendar, pick a time slot, then fill in contact details. Available Monday–Friday, 9am–5pm AEST, 30-minute slots. Submits to an API endpoint.",
+      "heading": "Book an Appointment",
+      "subtext": "Select a date and time that works for you. Sunshine Coast, QLD time (AEST).",
+      "steps": ["Select Date", "Select Time", "Your Details"],
+      "availability": {
+        "days": "Monday to Friday",
+        "hours": "9:00 AM to 5:00 PM",
+        "slotDuration": "30 minutes",
+        "timezone": "Australia/Brisbane (AEST)"
+      },
+      "formFields": [
+        { "label": "Full Name", "type": "text", "required": true },
+        { "label": "Email", "type": "email", "required": true },
+        { "label": "Phone", "type": "tel", "required": false },
+        { "label": "Notes", "type": "textarea", "required": false, "placeholder": "Anything we should know? (optional)" }
+      ],
+      "confirmationMessage": {
+        "heading": "Booking Request Sent",
+        "text": "Your appointment request has been sent. We'll confirm your booking shortly."
+      }
+    },
+
+    "contact": {
+      "description": "A contact page with contact info cards (location, phone, email, clinic hours) and a contact form that submits to an API endpoint.",
+      "heading": "Contact Us",
+      "subtext": "Have a question or ready to begin your journey? We'd love to hear from you.",
+      "contactInfo": {
+        "location": "Sunshine Coast, Queensland, Australia",
+        "phone": "Contact us for details",
+        "email": "hello@drvannettevoo.com",
+        "hours": {
+          "mondayToFriday": "9:00 AM – 5:00 PM",
+          "saturdaySunday": "Closed"
+        }
+      },
+      "formFields": [
+        { "label": "Name", "type": "text", "required": true },
+        { "label": "Email", "type": "email", "required": true },
+        { "label": "Phone", "type": "tel", "required": false },
+        { "label": "Subject", "type": "text", "required": false },
+        { "label": "Message", "type": "textarea", "required": true }
+      ],
+      "confirmationMessage": {
+        "heading": "Message Sent!",
+        "text": "Thank you for reaching out. We'll get back to you as soon as possible."
+      }
+    },
+
+    "surveyIntake": {
+      "description": "A 10-step new patient intake survey wizard. Each step is a section with questions. The user progresses step by step with a progress bar. Submits all data to an API endpoint at the end.",
+      "heading": "Patient Intake Survey",
+      "subtext": "Please complete all sections carefully. Each question helps Dr Voo understand how to best support you. This typically takes 10–15 minutes.",
+      "confirmationMessage": {
+        "heading": "Survey Submitted Successfully",
+        "text": "Thank you for taking the time to complete the intake survey. Dr Voo will review your responses before your appointment to ensure you receive the most personalised care possible.",
+        "emailNote": "A confirmation has been sent to your email address.",
+        "nextAction": {
+          "label": "Book Your Appointment",
+          "href": "/book",
+          "subtext": "Ready to get started? Book your first consultation now."
+        }
+      },
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Personal Information",
+          "description": "Let's start with your basic details so we can reach you.",
+          "fields": [
+            { "label": "First Name", "type": "text", "required": true },
+            { "label": "Last Name", "type": "text", "required": true },
+            { "label": "Email Address", "type": "email", "required": true },
+            { "label": "Phone Number", "type": "tel", "required": false },
+            { "label": "Date of Birth", "type": "date", "required": false },
+            {
+              "label": "How did you hear about us?",
+              "type": "select-one",
+              "options": ["Referral", "Online", "Social Media", "Other"],
+              "conditionalFollowUp": "If Referral: 'Who referred you?' / If Other: 'Please specify'"
+            }
+          ],
+          "nextOfKin": {
+            "heading": "Next of Kin",
+            "fields": [
+              { "label": "Full Name", "type": "text", "required": false },
+              { "label": "Relationship", "type": "text", "required": false, "placeholder": "e.g., Spouse, Parent" },
+              { "label": "Phone Number", "type": "tel", "required": false }
+            ]
+          }
+        },
+        {
+          "stepNumber": 2,
+          "title": "Symptom Picture",
+          "description": "Help us understand what you're experiencing and how it affects your life.",
+          "questions": [
+            { "number": 1, "question": "If you could change one thing in your life, what would it be and why?", "type": "textarea" },
+            { "number": 2, "question": "What is your chief complaint? How long have you been experiencing it?", "type": "textarea" },
+            { "number": 3, "question": "How frequent is the issue felt?", "type": "text", "placeholder": "e.g., Constant, 2x per day, weekly" },
+            { "number": 4, "question": "How would you score the issue? (Pain level out of 10)", "type": "slider", "min": 0, "max": 10, "labels": ["No pain", "Worst pain"] },
+            { "number": 5, "question": "What do you believe is the cause of your issue?", "type": "textarea" },
+            { "number": 6, "question": "What is this stopping you from doing? What would you love to do again?", "type": "textarea" }
+          ]
+        },
+        {
+          "stepNumber": 3,
+          "title": "Symptom Details",
+          "description": "A little more detail about your symptoms and previous investigations.",
+          "questions": [
+            { "number": 7, "question": "Are there any variations in the consistency of your symptoms?", "hint": "e.g., intensity, location, time of day, etc.", "type": "textarea" },
+            { "number": 8, "question": "What is the most important thing we can do for you?", "type": "textarea" },
+            { "number": 9, "question": "Have you had any scans or investigations? If so, what and when?", "type": "textarea", "placeholder": "e.g., MRI in 2023, CT scan in 2022, blood work last month..." }
+          ]
+        },
+        {
+          "stepNumber": 4,
+          "title": "Health Problem Assessment",
+          "description": "Help us understand the severity and impact of your condition.",
+          "questions": [
+            { "number": 10, "question": "How do you consider your health problem/s?", "type": "select-one", "options": ["Mild", "Moderate", "Severe", "Extreme"] },
+            { "number": 11, "question": "Do your symptoms get worse with stress?", "type": "select-one", "options": ["Yes", "No"] },
+            { "number": 12, "question": "Do your symptoms get worse with fatigue?", "type": "select-one", "options": ["Yes", "No"] },
+            { "number": 13, "question": "Is your pain better with movement or worse with movement?", "type": "select-one", "options": ["Better with movement", "Worse with movement", "Both"] },
+            {
+              "number": 14,
+              "question": "Who have you seen / what treatment have you had so far?",
+              "type": "select-many",
+              "options": [
+                "Medical Doctor", "Chiropractor", "Osteopathy", "Physiotherapist",
+                "Massage/Myotherapist", "Kinesiology", "Psychology", "Occupational Therapy",
+                "Energy Therapies", "Personal Training", "Pilates/Yoga", "Naturopath",
+                "Nutritionist", "Exercise Physiology", "Functional Medicine",
+                "Mindset Coaching", "Somatic Therapies"
+              ],
+              "allowOther": true
+            },
+            { "number": 15, "question": "How successful were they?", "type": "textarea" }
+          ]
+        },
+        {
+          "stepNumber": 5,
+          "title": "Injury / Medical History",
+          "description": "Your medical history helps us build a complete picture of your neurological health.",
+          "questions": [
+            {
+              "number": 16,
+              "question": "What was your birthing experience like?",
+              "type": "select-many",
+              "options": [
+                "Natural (no complications)", "Caesarean", "Induced",
+                "Premature", "Blood loss/early hospitalisation"
+              ]
+            },
+            {
+              "number": 17,
+              "question": "Have you ever had a concussion, whiplash, or head injury?",
+              "type": "yes-no",
+              "conditionalFollowUp": "If Yes: 'IMPORTANT: Note all incidents, even if you think they were not significant. Include the year.' (textarea)"
+            },
+            { "number": 18, "question": "List all operations/procedures with dates (year):", "type": "textarea" },
+            { "number": 19, "question": "List all breaks/fractures with dates (year):", "type": "textarea" },
+            { "number": 20, "question": "List all major illnesses with dates (year):", "type": "textarea" },
+            { "number": 21, "question": "Do you have any specific illnesses that occur from time to time?", "type": "textarea" },
+            { "number": 22, "question": "Do you have any allergies? If so, what type?", "type": "textarea" }
+          ]
+        },
+        {
+          "stepNumber": 6,
+          "title": "Symptom Checklist",
+          "description": "Select any symptoms that currently apply to you.",
+          "questions": [
+            {
+              "number": 23,
+              "question": "Select any symptoms that apply:",
+              "type": "select-many",
+              "options": [
+                "Dizziness", "Light sensitivity", "Sound sensitivity", "Fatigue",
+                "Chest pain", "Light-headedness", "Nausea", "Fever",
+                "Double vision", "Headache/Migraine", "Balance issues",
+                "Numbness/tingling/weakness", "Breathing difficulty", "Confusion",
+                "Memory loss", "Brain fog", "Bloating", "Reflux",
+                "Diarrhoea", "Constipation", "None of the above"
+              ],
+              "allowOther": true,
+              "note": "Selecting 'None of the above' clears all other selections."
+            },
+            {
+              "number": 24,
+              "question": "Have you been vaccinated against COVID-19?",
+              "type": "yes-no",
+              "conditionalFollowUp": "If Yes: 'How many shots and which brand?' (text)"
+            },
+            {
+              "number": 25,
+              "question": "Is there a family history of any disorders in your family?",
+              "type": "select-many",
+              "options": [
+                "Cancer", "Diabetes", "Hypertension", "Heart disease",
+                "Epilepsy", "Stroke", "Migraines", "Auto-immune",
+                "Neurological conditions"
+              ],
+              "allowOther": true
+            }
+          ]
+        },
+        {
+          "stepNumber": 7,
+          "title": "Lifestyle Questions",
+          "description": "Your lifestyle factors play a significant role in neurological health.",
+          "questions": [
+            { "number": 26, "question": "How would you rank your stress level? (out of 10)", "type": "slider", "min": 0, "max": 10, "labels": ["No stress", "Extreme"] },
+            { "number": 27, "question": "How would you rank your sleep? (out of 10)", "type": "slider", "min": 0, "max": 10, "labels": ["Terrible", "Excellent"] },
+            { "number": 28, "question": "What time do you go to bed and wake up?", "type": "text", "placeholder": "e.g., Bed at 10pm, wake at 6:30am" },
+            {
+              "number": 29,
+              "question": "What is your sleep quality like?",
+              "type": "select-many",
+              "options": [
+                "I fall asleep easily",
+                "I find it hard to fall asleep (overthinking)",
+                "I wake up during the night more than once",
+                "I wake up to urinate",
+                "I wake up feeling rested",
+                "I wake up feeling sluggish but get better as the day goes along",
+                "I always feel tired"
+              ]
+            },
+            { "number": 30, "question": "How often do you consume alcohol?", "type": "text", "placeholder": "e.g., Never, socially, 2-3 drinks per week" }
+          ]
+        },
+        {
+          "stepNumber": 8,
+          "title": "Further Details",
+          "description": "These questions help us understand your emotional and nervous system patterns.",
+          "questions": [
+            {
+              "number": 31,
+              "question": "What is your default response under stress?",
+              "type": "select-one",
+              "options": [
+                "Flight (withdraw and run away)",
+                "Fight (get angry or defensive)",
+                "Freeze",
+                "Immobilisation",
+                "Fawn (people-pleasing)",
+                "Stay calm (alert without arousal)"
+              ]
+            },
+            {
+              "number": 32,
+              "question": "Which emotion do you avoid feeling most?",
+              "type": "select-one",
+              "options": ["Fear", "Worry", "Anger", "Sadness", "Hurt"]
+            },
+            {
+              "number": 33,
+              "question": "Which emotion/experience do you crave the most?",
+              "type": "select-one",
+              "options": ["Love", "Care (to be cared for)", "Acceptance", "Safety/Security", "Feeling Worthy/Valued"]
+            },
+            {
+              "number": 34,
+              "question": "Which of the following human needs do you crave the most?",
+              "type": "select-one",
+              "options": ["Certainty/Safety", "Uncertainty/Variety", "Significance", "Connection/Love", "Growth", "Contribution"]
+            },
+            {
+              "number": 35,
+              "question": "Do you get startled by loud noises?",
+              "type": "select-one",
+              "options": ["Yes", "No", "Sometimes/Depends"]
+            },
+            { "number": 36, "question": "When you are emotionally triggered, how long does it take to calm yourself down?", "type": "textarea" },
+            { "number": 37, "question": "Is there anything else you want to mention to help us understand your case?", "type": "textarea" }
+          ]
+        },
+        {
+          "stepNumber": 9,
+          "title": "Understanding Your Intentions",
+          "description": "To help us understand where you are on your journey, please score the following questions from 1 to 10. (1 = Low, 5 = Moderate, 10 = High)",
+          "questions": [
+            { "question": "How important is it for you to prioritise your health and wellbeing?", "type": "slider", "min": 1, "max": 10 },
+            { "question": "How ready do you feel about taking control of your health?", "type": "slider", "min": 1, "max": 10 },
+            { "question": "How much help do you think you will need on this journey?", "type": "slider", "min": 1, "max": 10 },
+            { "question": "Do you feel you have a clear plan in place to achieve your health goals?", "type": "slider", "min": 1, "max": 10 },
+            { "question": "How much support would you like from a practitioner on this journey?", "type": "slider", "min": 1, "max": 10 },
+            { "question": "How ready are you to commit to a regular health support plan that involves regular appointments and self-care activities?", "type": "slider", "min": 1, "max": 10 }
+          ]
+        },
+        {
+          "stepNumber": 10,
+          "title": "Review & Submit",
+          "description": "Please review your answers below. You can go back to any step to make changes before submitting.",
+          "note": "By submitting, your responses will be securely sent to Dr Vannette Voo's clinic."
+        }
+      ]
+    },
+
+    "surveyProgress": {
+      "description": "A progress check-in survey for returning patients. Has a details section, symptom severity sliders for 14 areas, and additional feedback questions. Submits to an API endpoint.",
+      "heading": "Progress Check-In",
+      "subtext": "Rate your current symptoms so Dr Voo can track your improvement and adjust your treatment plan.",
+      "identityFields": [
+        { "label": "First Name", "type": "text", "required": true },
+        { "label": "Last Name", "type": "text", "required": true },
+        { "label": "Email", "type": "email", "required": true }
+      ],
+      "symptomRating": {
+        "heading": "Current Symptom Levels",
+        "instructions": "Rate each area from 0 (no issue) to 10 (severe). Only rate areas that are relevant to you.",
+        "areas": [
+          "Dizziness/Vertigo",
+          "Headaches/Migraines",
+          "Brain Fog",
+          "Fatigue",
+          "Balance Issues",
+          "Light Sensitivity",
+          "Sound Sensitivity",
+          "Nausea",
+          "Memory/Concentration",
+          "Pain Levels",
+          "Sleep Quality",
+          "Mood/Emotional State",
+          "Energy Levels",
+          "Stress Levels"
+        ],
+        "scale": { "min": 0, "max": 10, "naOption": true }
+      },
+      "additionalFeedback": {
+        "heading": "Additional Feedback",
+        "questions": [
+          { "question": "Any new symptoms since your last visit?", "type": "textarea" },
+          {
+            "question": "How have you been with your home exercises/self-care?",
+            "type": "select-one",
+            "options": ["Very consistent", "Mostly consistent", "Sometimes", "Rarely", "Haven't started"]
+          },
+          { "question": "Anything else you'd like Dr Voo to know?", "type": "textarea" }
+        ]
+      },
+      "confirmationMessage": {
+        "heading": "Progress Survey Submitted",
+        "text": "Thank you for updating us on your progress. Dr Voo will review your responses before your next appointment."
+      }
+    }
+  },
+
+  "apiEndpoints": [
+    { "path": "/api/survey", "method": "POST", "purpose": "Receives intake survey and progress survey submissions" },
+    { "path": "/api/book", "method": "POST", "purpose": "Receives booking requests with date, time, and contact details" },
+    { "path": "/api/contact", "method": "POST", "purpose": "Receives contact form messages" }
+  ]
+}
