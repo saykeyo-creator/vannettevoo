@@ -15,8 +15,8 @@ async function main() {
 
   const admin = await prisma.adminUser.create({
     data: {
-      email: "admin@vannettevoo.com.au",
-      name: "Dr Vannette Voo",
+      email: "admin@vannettevu.com.au",
+      name: "Vannette Vu",
       passwordHash: hashSync("changeme123", 12),
     },
   });

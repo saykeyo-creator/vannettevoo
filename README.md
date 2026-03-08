@@ -1,6 +1,6 @@
-# Vannette Voo — Functional Neurology Practice
+# Vannette Vu — Functional Neurology Practice
 
-Full-stack website and admin portal for Dr Vannette Voo's Functional Neurology practice. Built with Next.js 16, TypeScript, Tailwind CSS v4, Prisma 7 + PostgreSQL, and NextAuth v5.
+Full-stack website and admin portal for Vannette Vu's Functional Neurology practice. Built with Next.js 16, TypeScript, Tailwind CSS v4, Prisma 7 + PostgreSQL, and NextAuth v5.
 
 **Live site:** https://vannettevoo.onrender.com  
 **Admin portal:** https://vannettevoo.onrender.com/admin/login
@@ -127,7 +127,7 @@ Site runs at http://localhost:3000. Admin at http://localhost:3000/admin/login.
 
 ## Admin Portal
 
-**Default credentials:** `admin@vannettevoo.com.au` / `changeme123`
+**Default credentials:** `admin@vannettevu.com.au` / `changeme123`
 
 | Page       | Path               | Description                                     |
 | ---------- | ------------------ | ----------------------------------------------- |

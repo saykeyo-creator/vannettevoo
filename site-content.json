@@ -1,15 +1,15 @@
 {
   "site": {
-    "name": "Dr Vannette Voo — Functional Neurology",
+    "name": "Vannette Vu — Functional Neurology",
     "tagline": "Brain-based rehabilitation on the Sunshine Coast. Restoring function through neuroplasticity.",
     "location": "Sunshine Coast, Queensland, Australia",
-    "email": "hello@drvannettevoo.com",
+    "email": "hello@vannettevu.com",
     "phone": "Contact us for details",
     "clinicHours": {
       "mondayToFriday": "9:00 AM – 5:00 PM",
       "saturdaySunday": "Closed"
     },
-    "copyright": "Dr Vannette Voo Functional Neurology. Sunshine Coast, QLD."
+    "copyright": "Vannette Vu Functional Neurology. Sunshine Coast, QLD."
   },
 
   "navigation": [
@@ -27,7 +27,7 @@
       "description": "The main landing page. Has a hero section, a conditions preview section, a how-it-works section, and a call-to-action section.",
       "hero": {
         "heading": "Restore Your Brain. Reclaim Your Life.",
-        "subtext": "Dr Vannette Voo uses functional neurology to find the root cause of your symptoms — then builds a drug-free, personalised rehab plan to help your brain heal.",
+        "subtext": "Vannette Vu uses functional neurology to find the root cause of your symptoms — then builds a drug-free, personalised rehab plan to help your brain heal.",
         "buttons": [
           { "label": "Start Your Journey", "href": "/new-patient" },
           { "label": "See Conditions We Treat", "href": "/conditions" }
@@ -60,7 +60,7 @@
           {
             "number": "01",
             "title": "Complete the Intake Survey",
-            "description": "Share your health history, symptoms, and goals through our secure online questionnaire so Dr Voo can prepare for your visit."
+            "description": "Share your health history, symptoms, and goals through our secure online questionnaire so Vannette Vu can prepare for your visit."
           },
           {
             "number": "02",
@@ -81,19 +81,19 @@
       },
       "cta": {
         "heading": "Ready to Start Your Journey?",
-        "body": "Complete the intake survey so Dr Voo can prepare a personalised assessment. It only takes 10–15 minutes and it's the first step toward reclaiming your health.",
+        "body": "Complete the intake survey so Vannette Vu can prepare a personalised assessment. It only takes 10–15 minutes and it's the first step toward reclaiming your health.",
         "buttonLabel": "Begin Your Intake Survey",
         "buttonHref": "/survey/new"
       }
     },
 
     "about": {
-      "description": "About page for Dr Vannette Voo. Contains her bio, guiding principles, and qualifications.",
-      "heading": "Meet Dr Vannette Voo",
+      "description": "About page for Vannette Vu. Contains her bio, guiding principles, and qualifications.",
+      "heading": "Meet Vannette Vu",
       "bio": [
-        "Dr Vannette Voo is a functional neurologist based on the Sunshine Coast, Queensland. She specialises in brain-based rehabilitation — using the science of neuroplasticity to help patients recover from concussion, chronic dizziness, migraines, dysautonomia, and other neurological conditions without drugs or surgery.",
+        "Vannette Vu is a functional neurologist based on the Sunshine Coast, Queensland. She specialises in brain-based rehabilitation — using the science of neuroplasticity to help patients recover from concussion, chronic dizziness, migraines, dysautonomia, and other neurological conditions without drugs or surgery.",
         "Her approach blends comprehensive neurological assessment with personalised rehabilitation protocols. Every treatment plan is built around each patient's unique brain — because no two nervous systems are the same.",
-        "With advanced post-graduate training in functional neurology and years of clinical experience, Dr Voo is passionate about helping people understand their brain, regain function, and get back to living the life they love."
+        "With advanced post-graduate training in functional neurology and years of clinical experience, Vannette Vu is passionate about helping people understand their brain, regain function, and get back to living the life they love."
       ],
       "guidingPrinciples": [
         {
@@ -151,7 +151,7 @@
             "Memory difficulties",
             "Nausea or visual disturbances"
           ],
-          "howWeHelp": "Dr Voo performs a comprehensive neurological examination to identify which areas of your brain have been affected. Your rehabilitation plan may include oculomotor (eye movement) exercises, vestibular therapy, cognitive drills, breathing protocols, and sensory integration — all tailored to your specific findings. The goal is to retrain the injured pathways and restore function using neuroplasticity."
+          "howWeHelp": "Vannette Vu performs a comprehensive neurological examination to identify which areas of your brain have been affected. Your rehabilitation plan may include oculomotor (eye movement) exercises, vestibular therapy, cognitive drills, breathing protocols, and sensory integration — all tailored to your specific findings. The goal is to retrain the injured pathways and restore function using neuroplasticity."
         },
         {
           "slug": "dizziness-vertigo",
@@ -168,7 +168,7 @@
             "Anxiety in busy visual environments (shopping centres, crowds)",
             "Falls or near-falls"
           ],
-          "howWeHelp": "Using detailed vestibular testing — including eye-movement analysis, positional testing, and balance assessments — Dr Voo identifies the precise cause of your dizziness. Treatment may include canalith repositioning manoeuvres (for BPPV), vestibular rehabilitation exercises, gaze stabilisation training, and habituation protocols to reduce sensitivity."
+          "howWeHelp": "Using detailed vestibular testing — including eye-movement analysis, positional testing, and balance assessments — Vannette Vu identifies the precise cause of your dizziness. Treatment may include canalith repositioning manoeuvres (for BPPV), vestibular rehabilitation exercises, gaze stabilisation training, and habituation protocols to reduce sensitivity."
         },
         {
           "slug": "migraines-headaches",
@@ -185,7 +185,7 @@
             "Difficulty concentrating during attacks",
             "Dizziness or vertigo with headaches (vestibular migraine)"
           ],
-          "howWeHelp": "Dr Voo assesses brainstem function, eye movements, cervical spine mechanics, and autonomic regulation to understand what is driving your migraines. Treatment often includes specific eye-movement exercises, vestibular stimulation, breathing and vagus nerve protocols, cervical rehabilitation, and lifestyle guidance — all without medication."
+          "howWeHelp": "Vannette Vu assesses brainstem function, eye movements, cervical spine mechanics, and autonomic regulation to understand what is driving your migraines. Treatment often includes specific eye-movement exercises, vestibular stimulation, breathing and vagus nerve protocols, cervical rehabilitation, and lifestyle guidance — all without medication."
         },
         {
           "slug": "dysautonomia-pots",
@@ -202,7 +202,7 @@
             "Sleep disturbances",
             "Anxiety-like symptoms without psychological cause"
           ],
-          "howWeHelp": "Dr Voo uses autonomic testing, orthostatic assessments, and neurological examination to map your autonomic function. Rehabilitation may include vagus nerve stimulation techniques, specific breathing protocols, graded exercise and tilt training, oculomotor exercises, and strategies to improve autonomic regulation and resilience."
+          "howWeHelp": "Vannette Vu uses autonomic testing, orthostatic assessments, and neurological examination to map your autonomic function. Rehabilitation may include vagus nerve stimulation techniques, specific breathing protocols, graded exercise and tilt training, oculomotor exercises, and strategies to improve autonomic regulation and resilience."
         },
         {
           "slug": "balance-disorders",
@@ -219,7 +219,7 @@
             "Worsening balance with fatigue",
             "History of falls"
           ],
-          "howWeHelp": "Dr Voo performs comprehensive balance testing including posturography, gait analysis, eye-movement assessment, and cerebellar function tests. Treatment targets the weak links in your balance system — whether vestibular, visual, proprioceptive, or cerebellar — with specific exercises designed to rebuild stability and confidence."
+          "howWeHelp": "Vannette Vu performs comprehensive balance testing including posturography, gait analysis, eye-movement assessment, and cerebellar function tests. Treatment targets the weak links in your balance system — whether vestibular, visual, proprioceptive, or cerebellar — with specific exercises designed to rebuild stability and confidence."
         },
         {
           "slug": "adhd-focus",
@@ -236,7 +236,7 @@
             "Difficulty completing tasks",
             "Brain fog and mental fatigue"
           ],
-          "howWeHelp": "Dr Voo assesses prefrontal cortex function, eye-movement control (which reflects frontal lobe activity), timing and rhythm, and cerebellar function. Rehabilitation may include specific cognitive exercises, interactive metronome, oculomotor training, sensory-motor integration, and strategies to enhance executive function naturally."
+          "howWeHelp": "Vannette Vu assesses prefrontal cortex function, eye-movement control (which reflects frontal lobe activity), timing and rhythm, and cerebellar function. Rehabilitation may include specific cognitive exercises, interactive metronome, oculomotor training, sensory-motor integration, and strategies to enhance executive function naturally."
         },
         {
           "slug": "chronic-fatigue",
@@ -253,7 +253,7 @@
             "Sore throat and swollen lymph nodes",
             "Sensitivity to light, sound, or temperature"
           ],
-          "howWeHelp": "Dr Voo evaluates brainstem function, autonomic regulation, vestibular and oculomotor systems, and overall neurological resilience. Treatment is gentle and graded — starting within your energy envelope and gradually expanding capacity. Protocols may include vagus nerve work, breathing exercises, light vestibular stimulation, and cognitive pacing strategies."
+          "howWeHelp": "Vannette Vu evaluates brainstem function, autonomic regulation, vestibular and oculomotor systems, and overall neurological resilience. Treatment is gentle and graded — starting within your energy envelope and gradually expanding capacity. Protocols may include vagus nerve work, breathing exercises, light vestibular stimulation, and cognitive pacing strategies."
         },
         {
           "slug": "developmental-delays",
@@ -270,15 +270,15 @@
             "Difficulty with social interaction",
             "Bedwetting beyond age 5"
           ],
-          "howWeHelp": "Dr Voo assesses primitive reflex integration, cerebellar function, sensory processing, eye-movement control, and overall neurodevelopmental status. Treatment involves specific reflex integration exercises, sensory-motor activities, balance and coordination work, and oculomotor training — all designed as child-friendly activities that support brain maturation."
+          "howWeHelp": "Vannette Vu assesses primitive reflex integration, cerebellar function, sensory processing, eye-movement control, and overall neurodevelopmental status. Treatment involves specific reflex integration exercises, sensory-motor activities, balance and coordination work, and oculomotor training — all designed as child-friendly activities that support brain maturation."
         }
       ]
     },
 
     "services": {
-      "description": "A page listing the therapies and modalities Dr Voo uses, plus what to expect at a first visit.",
+      "description": "A page listing the therapies and modalities Vannette Vu uses, plus what to expect at a first visit.",
       "heading": "Therapies & Modalities",
-      "introText": "Dr Voo draws on a range of evidence-informed techniques, choosing the right combination for each patient based on their neurological findings.",
+      "introText": "Vannette Vu draws on a range of evidence-informed techniques, choosing the right combination for each patient based on their neurological findings.",
       "therapies": [
         {
           "title": "Oculomotor Rehabilitation",
@@ -312,9 +312,9 @@
       "firstVisit": {
         "heading": "What to Expect at Your First Visit",
         "paragraphs": [
-          "Your first appointment is a comprehensive 60–90 minute consultation. Dr Voo will review the intake survey you completed beforehand, discuss your health history in detail, and perform a thorough neurological examination.",
+          "Your first appointment is a comprehensive 60–90 minute consultation. Vannette Vu will review the intake survey you completed beforehand, discuss your health history in detail, and perform a thorough neurological examination.",
           "This assessment includes testing of your cranial nerves, eye movements, vestibular function, balance, coordination, reflexes, and cognitive function. The goal is to build a detailed map of how your brain and nervous system are functioning right now.",
-          "At the end of your assessment, Dr Voo will explain her findings in plain language, answer all your questions, and outline a personalised rehabilitation plan — including what exercises to do at home and how often to return for in-clinic sessions."
+          "At the end of your assessment, Vannette Vu will explain her findings in plain language, answer all your questions, and outline a personalised rehabilitation plan — including what exercises to do at home and how often to return for in-clinic sessions."
         ]
       }
     },
@@ -322,14 +322,14 @@
     "newPatient": {
       "description": "An onboarding page for new patients. Shows 3 steps to get started: complete the intake survey, book an appointment, and attend the first visit. Also has a section for returning patients to do a progress check-in.",
       "heading": "Getting Started Is Simple",
-      "subtext": "Dr Voo has asked you to complete a short intake survey before your first visit. This helps her prepare a personalised assessment so your appointment time is focused entirely on you.",
+      "subtext": "Vannette Vu has asked you to complete a short intake survey before your first visit. This helps her prepare a personalised assessment so your appointment time is focused entirely on you.",
       "buttonLabel": "Start Your Intake Survey",
       "trustSignals": ["10–15 minutes", "Private & secure"],
       "steps": [
         {
           "number": "01",
           "title": "Complete the Intake Survey",
-          "description": "Fill out the online patient survey so Dr Voo can understand your health history, symptoms, and goals before we meet.",
+          "description": "Fill out the online patient survey so Vannette Vu can understand your health history, symptoms, and goals before we meet.",
           "time": "10–15 minutes",
           "buttonLabel": "Start Survey",
           "buttonHref": "/survey/new"
@@ -337,7 +337,7 @@
         {
           "number": "02",
           "title": "Book Your Appointment",
-          "description": "Choose a time that works for you. Your first consultation is a thorough 60-minute assessment where Dr Voo will review your survey and perform neurological testing.",
+          "description": "Choose a time that works for you. Your first consultation is a thorough 60-minute assessment where Vannette Vu will review your survey and perform neurological testing.",
           "time": "Pick a time",
           "buttonLabel": "Book Now",
           "buttonHref": "/book"
@@ -345,13 +345,13 @@
         {
           "number": "03",
           "title": "Your First Visit",
-          "description": "Arrive ready for a comprehensive brain-based assessment. Dr Voo will explain your findings and create a personalised rehabilitation plan tailored to your neurology.",
+          "description": "Arrive ready for a comprehensive brain-based assessment. Vannette Vu will explain your findings and create a personalised rehabilitation plan tailored to your neurology.",
           "time": "60 minutes"
         }
       ],
       "returningPatients": {
         "heading": "Already a Patient?",
-        "text": "If Dr Voo has asked you to complete a progress check-in before your next appointment, use the link below.",
+        "text": "If Vannette Vu has asked you to complete a progress check-in before your next appointment, use the link below.",
         "buttonLabel": "Progress Check-In",
         "buttonHref": "/survey/progress"
       }
@@ -387,7 +387,7 @@
       "contactInfo": {
         "location": "Sunshine Coast, Queensland, Australia",
         "phone": "Contact us for details",
-        "email": "hello@drvannettevoo.com",
+        "email": "hello@vannettevu.com",
         "hours": {
           "mondayToFriday": "9:00 AM – 5:00 PM",
           "saturdaySunday": "Closed"
@@ -409,10 +409,10 @@
     "surveyIntake": {
       "description": "A 10-step new patient intake survey wizard. Each step is a section with questions. The user progresses step by step with a progress bar. Submits all data to an API endpoint at the end.",
       "heading": "Patient Intake Survey",
-      "subtext": "Please complete all sections carefully. Each question helps Dr Voo understand how to best support you. This typically takes 10–15 minutes.",
+      "subtext": "Please complete all sections carefully. Each question helps Vannette Vu understand how to best support you. This typically takes 10–15 minutes.",
       "confirmationMessage": {
         "heading": "Survey Submitted Successfully",
-        "text": "Thank you for taking the time to complete the intake survey. Dr Voo will review your responses before your appointment to ensure you receive the most personalised care possible.",
+        "text": "Thank you for taking the time to complete the intake survey. Vannette Vu will review your responses before your appointment to ensure you receive the most personalised care possible.",
         "emailNote": "A confirmation has been sent to your email address.",
         "nextAction": {
           "label": "Book Your Appointment",
@@ -649,7 +649,7 @@
           "stepNumber": 10,
           "title": "Review & Submit",
           "description": "Please review your answers below. You can go back to any step to make changes before submitting.",
-          "note": "By submitting, your responses will be securely sent to Dr Vannette Voo's clinic."
+          "note": "By submitting, your responses will be securely sent to Vannette Vu's clinic."
         }
       ]
     },
@@ -657,7 +657,7 @@
     "surveyProgress": {
       "description": "A progress check-in survey for returning patients. Has a details section, symptom severity sliders for 14 areas, and additional feedback questions. Submits to an API endpoint.",
       "heading": "Progress Check-In",
-      "subtext": "Rate your current symptoms so Dr Voo can track your improvement and adjust your treatment plan.",
+      "subtext": "Rate your current symptoms so Vannette Vu can track your improvement and adjust your treatment plan.",
       "identityFields": [
         { "label": "First Name", "type": "text", "required": true },
         { "label": "Last Name", "type": "text", "required": true },
@@ -693,12 +693,12 @@
             "type": "select-one",
             "options": ["Very consistent", "Mostly consistent", "Sometimes", "Rarely", "Haven't started"]
           },
-          { "question": "Anything else you'd like Dr Voo to know?", "type": "textarea" }
+          { "question": "Anything else you'd like Vannette Vu to know?", "type": "textarea" }
         ]
       },
       "confirmationMessage": {
         "heading": "Progress Survey Submitted",
-        "text": "Thank you for updating us on your progress. Dr Voo will review your responses before your next appointment."
+        "text": "Thank you for updating us on your progress. Vannette Vu will review your responses before your next appointment."
       }
     }
   },

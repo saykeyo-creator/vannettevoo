@@ -22,16 +22,16 @@ import Footer from "@/components/Footer";
 describe("Footer", () => {
   it("renders the brand name", () => {
     render(<Footer />);
-    expect(screen.getByText("Dr Vannette Voo")).toBeInTheDocument();
+    expect(screen.getByText("Vannette Vu")).toBeInTheDocument();
   });
 
   it("renders the email link", () => {
     render(<Footer />);
-    const emailLink = screen.getByText("hello@drvannettevoo.com");
+    const emailLink = screen.getByText("hello@vannettevu.com");
     expect(emailLink).toBeInTheDocument();
     expect(emailLink.closest("a")).toHaveAttribute(
       "href",
-      "mailto:hello@drvannettevoo.com"
+      "mailto:hello@vannettevu.com"
     );
   });
 
@@ -55,7 +55,7 @@ describe("Footer", () => {
 
   it("email link has break-all to prevent overflow on mobile", () => {
     render(<Footer />);
-    const emailLink = screen.getByText("hello@drvannettevoo.com").closest("a")!;
+    const emailLink = screen.getByText("hello@vannettevu.com").closest("a")!;
     expect(emailLink.className).toContain("break-all");
   });
 });

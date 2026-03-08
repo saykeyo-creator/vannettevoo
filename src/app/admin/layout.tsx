@@ -50,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }`}
       >
         <div className="px-4 py-5 border-b border-slate-700">
-          <p className="text-sm font-semibold text-teal-400">Dr Vannette Voo</p>
+          <p className="text-sm font-semibold text-teal-400">Vannette Vu</p>
           <p className="text-[10px] text-slate-400 uppercase tracking-widest mt-0.5">Admin Portal</p>
         </div>
 

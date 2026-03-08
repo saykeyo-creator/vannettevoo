@@ -22,7 +22,7 @@ import AboutPage from "@/app/about/page";
 describe("About Page", () => {
   it("renders the heading", () => {
     render(<AboutPage />);
-    expect(screen.getByText("Meet Dr Vannette Voo")).toBeInTheDocument();
+    expect(screen.getByText("Meet Vannette Vu")).toBeInTheDocument();
   });
 
   it("renders bio paragraphs", () => {

@@ -35,7 +35,7 @@ describe("Admin Dashboard", () => {
     const el = await AdminDashboard();
     render(el);
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
-    expect(screen.getByText("Welcome back, Dr Voo")).toBeInTheDocument();
+    expect(screen.getByText("Welcome back, Vannette")).toBeInTheDocument();
   });
 
   it("renders all four stat cards with correct labels", async () => {

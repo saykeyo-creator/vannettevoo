@@ -24,7 +24,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="flex flex-col leading-tight" onClick={() => setMenuOpen(false)}>
           <span className="text-sm font-semibold text-teal-700 tracking-tight">
-            Dr Vannette Voo
+            Vannette Vu
           </span>
           <span className="text-[10px] text-slate-400 uppercase tracking-widest">
             Functional Neurology

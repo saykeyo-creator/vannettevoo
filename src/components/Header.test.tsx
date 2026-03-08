@@ -38,7 +38,7 @@ afterEach(() => {
 describe("Header", () => {
   it("renders the site name", () => {
     render(<Header />);
-    expect(screen.getByText("Dr Vannette Voo")).toBeInTheDocument();
+    expect(screen.getByText("Vannette Vu")).toBeInTheDocument();
     expect(screen.getByText("Functional Neurology")).toBeInTheDocument();
   });
 

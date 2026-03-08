@@ -30,9 +30,9 @@ describe("Admin Layout", () => {
     expect(screen.getByText("Messages")).toBeInTheDocument();
   });
 
-  it("renders the Dr Vannette Voo branding", () => {
+  it("renders the Vannette Vu branding", () => {
     render(<AdminLayout><div>Content</div></AdminLayout>);
-    expect(screen.getByText("Dr Vannette Voo")).toBeInTheDocument();
+    expect(screen.getByText("Vannette Vu")).toBeInTheDocument();
     expect(screen.getByText("Admin Portal")).toBeInTheDocument();
   });
 

@@ -49,6 +49,7 @@ export default function IntakeSurveyPage() {
   const handleNext = () => {
     if (!validateStep()) return;
     setCurrentStep(currentStep + 1);
+    window.scrollTo(0, 0);
   };
 
   const toggleMulti = (key: string, option: string) => {
@@ -140,7 +141,7 @@ export default function IntakeSurveyPage() {
       {/* Fields / Questions */}
       <div className="mt-6 space-y-5">
         {isReviewStep ? (
-          <ReviewStep data={data} steps={survey.steps} onGoTo={setCurrentStep} />
+          <ReviewStep data={data} steps={survey.steps} onGoTo={(step) => { setCurrentStep(step); window.scrollTo(0, 0); }} />
         ) : (
           <>
             {step.fields?.map((field) => (
@@ -197,7 +198,7 @@ export default function IntakeSurveyPage() {
       <div className="mt-4 flex gap-2">
         {currentStep > 0 && (
           <button
-            onClick={() => setCurrentStep(currentStep - 1)}
+            onClick={() => { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); }}
             className="flex-1 py-3 rounded-lg border border-slate-200 text-sm text-slate-600 hover:bg-slate-50"
           >
             Back

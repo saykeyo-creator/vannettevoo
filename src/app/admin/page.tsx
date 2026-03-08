@@ -27,7 +27,7 @@ export default async function AdminDashboard() {
   return (
     <>
       <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-      <p className="text-sm text-slate-500 mt-1">Welcome back, Dr Voo</p>
+      <p className="text-sm text-slate-500 mt-1">Welcome back, Vannette</p>
 
       {/* Stat cards */}
       <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">

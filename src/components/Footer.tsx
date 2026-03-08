@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           {/* Brand */}
           <div>
-            <p className="font-semibold text-white text-base">Dr Vannette Voo</p>
+            <p className="font-semibold text-white text-base">Vannette Vu</p>
             <p className="text-sm text-slate-400 mt-1">Functional Neurology</p>
             <p className="text-sm mt-3">{site.location}</p>
             <a

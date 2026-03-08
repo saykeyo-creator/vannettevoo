@@ -40,10 +40,10 @@ describe("Contact Page", () => {
 
   it("renders the email address as a link", () => {
     render(<ContactPage />);
-    const emailLink = screen.getByText("hello@drvannettevoo.com");
+    const emailLink = screen.getByText("hello@vannettevu.com");
     expect(emailLink.closest("a")).toHaveAttribute(
       "href",
-      "mailto:hello@drvannettevoo.com"
+      "mailto:hello@vannettevu.com"
     );
   });
 

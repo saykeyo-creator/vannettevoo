@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "Dr Vannette Voo — Functional Neurology",
-    template: "%s | Dr Vannette Voo",
+    default: "Vannette Vu — Functional Neurology",
+    template: "%s | Vannette Vu",
   },
   description:
     "Brain-based rehabilitation on the Sunshine Coast. Restoring function through neuroplasticity.",
