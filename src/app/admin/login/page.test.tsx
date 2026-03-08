@@ -3,14 +3,20 @@ import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const mockSignIn = vi.fn().mockResolvedValue({ ok: true });
-const mockPush = vi.fn();
+
+// Track window.location.href assignments (used for full-page redirect after login)
+const locationHrefSpy = vi.fn();
+Object.defineProperty(window, "location", {
+  value: { href: "", assign: vi.fn(), replace: vi.fn(), reload: vi.fn() },
+  writable: true,
+});
 
 vi.mock("next-auth/react", () => ({
   signIn: (...args: unknown[]) => mockSignIn(...args),
 }));
 
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({ push: mockPush }),
+  useRouter: () => ({ push: vi.fn() }),
   useSearchParams: () => new URLSearchParams(),
 }));
 
@@ -53,7 +59,7 @@ describe("Admin Login Page", () => {
     });
   });
 
-  it("redirects to /admin on successful sign in", async () => {
+  it("redirects to /admin via full page navigation on successful sign in", async () => {
     const user = userEvent.setup();
     render(<AdminLoginPage />);
 
@@ -61,7 +67,9 @@ describe("Admin Login Page", () => {
     await user.type(screen.getByLabelText("Password"), "secret123");
     await user.click(screen.getByRole("button", { name: /sign in/i }));
 
-    expect(mockPush).toHaveBeenCalledWith("/admin");
+    // Must use window.location.href (not router.push) so the browser sends
+    // the new JWT cookie on the redirect — prevents stuck login on reverse proxies
+    expect(window.location.href).toBe("/admin");
   });
 
   it("shows error message on failed sign in", async () => {
