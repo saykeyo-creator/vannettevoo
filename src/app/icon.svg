@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Brain left hemisphere -->
+  <path d="M256 120c-30-40-80-60-120-50s-70 45-75 85c-8 5-25 22-28 55s12 55 28 68c-2 25 8 52 35 70s55 22 80 18c10 15 35 30 65 35h15" 
+    stroke="#0d9488" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="#ccfbf1"/>
+  <!-- Brain right hemisphere -->
+  <path d="M256 120c30-40 80-60 120-50s70 45 75 85c8 5 25 22 28 55s-12 55-28 68c2 25-8 52-35 70s-55 22-80 18c-10 15-35 30-65 35h-15"
+    stroke="#0d9488" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="#ccfbf1"/>
+  <!-- Brain center fold -->
+  <line x1="256" y1="90" x2="256" y2="410" stroke="#0d9488" stroke-width="16" stroke-linecap="round"/>
+  <!-- Left folds -->
+  <path d="M256 180c-40-10-85 0-100 30" stroke="#0d9488" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <path d="M256 260c-50 5-90 25-95 55" stroke="#0d9488" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <!-- Right folds -->
+  <path d="M256 180c40-10 85 0 100 30" stroke="#0d9488" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <path d="M256 260c50 5 90 25 95 55" stroke="#0d9488" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <!-- Medical cross circle -->
+  <circle cx="400" cy="400" r="90" fill="#0d9488"/>
+  <rect x="375" y="345" width="50" height="110" rx="8" fill="white"/>
+  <rect x="345" y="375" width="110" height="50" rx="8" fill="white"/>
+</svg>
