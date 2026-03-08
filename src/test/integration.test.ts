@@ -1,14 +1,15 @@
 import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from "vitest";
-import path from "path";
-import fs from "fs";
 
 /**
- * Integration tests — real SQLite database, real Prisma client, real API route handlers.
+ * Integration tests — real PostgreSQL database, real Prisma client, real API route handlers.
  * Verifies data flows end-to-end: form submission → API → DB → admin query.
  * Each test cleans up after itself (all tables truncated between tests).
+ *
+ * Requires DATABASE_URL pointing to a real PostgreSQL instance.
+ * Skipped automatically when DATABASE_URL is not set or unreachable.
  */
 
-const TEST_DB_PATH = path.resolve(process.cwd(), "test-integration.db");
+const DATABASE_URL = process.env.DATABASE_URL;
 
 // Holder for test Prisma client (set in beforeAll, accessed via getter in mock)
 let testPrisma: any;
@@ -25,85 +26,6 @@ vi.mock("@/lib/auth", () => ({
   auth: vi.fn().mockResolvedValue({ user: { email: "admin@test.com" } }),
 }));
 
-// ---------- Schema matching prisma/schema.prisma ----------
-
-const SCHEMA_SQL = `
-CREATE TABLE IF NOT EXISTS "AdminUser" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "email" TEXT NOT NULL,
-    "passwordHash" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-CREATE UNIQUE INDEX IF NOT EXISTS "AdminUser_email_key" ON "AdminUser"("email");
-
-CREATE TABLE IF NOT EXISTS "BlockedTime" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "date" TEXT NOT NULL,
-    "startTime" TEXT,
-    "endTime" TEXT,
-    "reason" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-CREATE INDEX IF NOT EXISTS "BlockedTime_date_idx" ON "BlockedTime"("date");
-
-CREATE TABLE IF NOT EXISTS "Patient" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "phone" TEXT,
-    "dob" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-CREATE UNIQUE INDEX IF NOT EXISTS "Patient_email_key" ON "Patient"("email");
-
-CREATE TABLE IF NOT EXISTS "PatientNote" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "content" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "patientId" TEXT NOT NULL,
-    CONSTRAINT "PatientNote_patientId_fkey" FOREIGN KEY ("patientId") REFERENCES "Patient" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE INDEX IF NOT EXISTS "PatientNote_patientId_idx" ON "PatientNote"("patientId");
-
-CREATE TABLE IF NOT EXISTS "SurveySubmission" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "type" TEXT NOT NULL,
-    "data" TEXT NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "patientId" TEXT NOT NULL,
-    CONSTRAINT "SurveySubmission_patientId_fkey" FOREIGN KEY ("patientId") REFERENCES "Patient" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE INDEX IF NOT EXISTS "SurveySubmission_patientId_idx" ON "SurveySubmission"("patientId");
-
-CREATE TABLE IF NOT EXISTS "Booking" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "date" TEXT NOT NULL,
-    "time" TEXT NOT NULL,
-    "status" TEXT NOT NULL DEFAULT 'pending',
-    "notes" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "patientId" TEXT NOT NULL,
-    CONSTRAINT "Booking_patientId_fkey" FOREIGN KEY ("patientId") REFERENCES "Patient" ("id") ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE INDEX IF NOT EXISTS "Booking_patientId_idx" ON "Booking"("patientId");
-CREATE INDEX IF NOT EXISTS "Booking_date_idx" ON "Booking"("date");
-
-CREATE TABLE IF NOT EXISTS "ContactMessage" (
-    "id" TEXT NOT NULL PRIMARY KEY,
-    "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "phone" TEXT,
-    "subject" TEXT,
-    "message" TEXT NOT NULL,
-    "read" INTEGER NOT NULL DEFAULT 0,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-`;
-
 // ---------- Request helpers ----------
 
 function mockRequest(body: unknown) {
@@ -118,28 +40,19 @@ function mockGetRequest(urlPath: string, params: Record<string, string> = {}) {
 
 // ---------- Setup / Teardown ----------
 
+const canRun = !!DATABASE_URL && !DATABASE_URL.startsWith("postgresql://user:password@localhost");
+
 beforeAll(async () => {
-  // Remove stale test DB
-  for (const f of [TEST_DB_PATH, TEST_DB_PATH + "-wal", TEST_DB_PATH + "-shm"]) {
-    if (fs.existsSync(f)) fs.unlinkSync(f);
-  }
+  if (!canRun) return;
 
-  // Create fresh test database with schema
-  const Database = (await import("better-sqlite3")).default;
-  const db = new Database(TEST_DB_PATH);
-  db.pragma("journal_mode = WAL");
-  db.pragma("foreign_keys = ON");
-  db.exec(SCHEMA_SQL);
-  db.close();
-
-  // Create Prisma client pointing to test DB
   const { PrismaClient } = await import("@/generated/prisma/client");
-  const { PrismaBetterSqlite3 } = await import("@prisma/adapter-better-sqlite3");
-  const adapter = new PrismaBetterSqlite3({ url: `file:${TEST_DB_PATH}` });
+  const { PrismaPg } = await import("@prisma/adapter-pg");
+  const adapter = new PrismaPg({ connectionString: DATABASE_URL! });
   testPrisma = new PrismaClient({ adapter });
 });
 
 afterEach(async () => {
+  if (!testPrisma) return;
   // Clean all tables between tests (children before parents)
   await testPrisma.patientNote.deleteMany();
   await testPrisma.surveySubmission.deleteMany();
@@ -151,17 +64,17 @@ afterEach(async () => {
 
 afterAll(async () => {
   if (testPrisma) await testPrisma.$disconnect();
-  // Remove test database files
-  for (const f of [TEST_DB_PATH, TEST_DB_PATH + "-wal", TEST_DB_PATH + "-shm"]) {
-    if (fs.existsSync(f)) fs.unlinkSync(f);
-  }
 });
 
 // =====================================================================
 // INTEGRATION TESTS
+// Require a real PostgreSQL database (set DATABASE_URL).
+// Skipped when no database is available.
 // =====================================================================
 
-describe("Integration: Booking Flow", () => {
+const describeIf = canRun ? describe : describe.skip;
+
+describeIf("Integration: Booking Flow", () => {
   it("creates patient and booking from form, visible to admin via patient list and detail", async () => {
     const { POST: bookPost } = await import("@/app/api/book/route");
     const { GET: patientsGet } = await import("@/app/api/admin/patients/route");
@@ -250,7 +163,7 @@ describe("Integration: Booking Flow", () => {
   });
 });
 
-describe("Integration: Intake Survey Flow", () => {
+describeIf("Integration: Intake Survey Flow", () => {
   it("creates patient from nested intake data, saves full survey payload", async () => {
     const { POST: surveyPost } = await import("@/app/api/survey/route");
 
@@ -290,7 +203,7 @@ describe("Integration: Intake Survey Flow", () => {
   });
 });
 
-describe("Integration: Full Patient Journey", () => {
+describeIf("Integration: Full Patient Journey", () => {
   it("tracks patient from booking → intake → progress → admin confirm → note → cancel", async () => {
     const { POST: bookPost } = await import("@/app/api/book/route");
     const { POST: surveyPost } = await import("@/app/api/survey/route");
@@ -457,7 +370,7 @@ describe("Integration: Full Patient Journey", () => {
   });
 });
 
-describe("Integration: Contact Messages", () => {
+describeIf("Integration: Contact Messages", () => {
   it("saves messages, admin fetches and marks read — all fields round-trip", async () => {
     const { POST: contactPost } = await import("@/app/api/contact/route");
     const { GET: messagesGet, PATCH: messagesPatch } = await import(
@@ -519,7 +432,7 @@ describe("Integration: Contact Messages", () => {
   });
 });
 
-describe("Integration: Calendar Blocking & Availability", () => {
+describeIf("Integration: Calendar Blocking & Availability", () => {
   it("blocks times, reflects in public availability, supports deletion", async () => {
     const { POST: blockPost, DELETE: blockDelete } = await import(
       "@/app/api/admin/blocked-time/route"
@@ -700,7 +613,7 @@ describe("Integration: Calendar Blocking & Availability", () => {
   });
 });
 
-describe("Integration: Data Integrity Guards", () => {
+describeIf("Integration: Data Integrity Guards", () => {
   it("does not create patient or booking when email is missing", async () => {
     const { POST: bookPost } = await import("@/app/api/book/route");
 
