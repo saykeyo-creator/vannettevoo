@@ -4,6 +4,7 @@ import { compareSync } from "bcryptjs";
 import { prisma } from "@/lib/db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   providers: [
     Credentials({
       credentials: {
