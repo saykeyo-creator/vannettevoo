@@ -9,7 +9,7 @@ import { describe, it, expect, vi, beforeAll, afterAll, afterEach } from "vitest
  * Skipped automatically when DATABASE_URL is not set or unreachable.
  */
 
-const DATABASE_URL = process.env.DATABASE_URL;
+const DATABASE_URL = process.env.TEST_DATABASE_URL || process.env.DATABASE_URL;
 
 // Holder for test Prisma client (set in beforeAll, accessed via getter in mock)
 let testPrisma: any;
