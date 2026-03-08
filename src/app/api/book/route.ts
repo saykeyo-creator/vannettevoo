@@ -67,12 +67,15 @@ export async function POST(request: NextRequest) {
   let patientId: string | undefined;
 
   if (email) {
-    const patient = await prisma.patient.upsert({
-      where: { email },
-      update: { ...(phone ? { phone } : {}), ...(firstName ? { firstName } : {}), ...(lastName ? { lastName } : {}) },
-      create: { email, firstName, lastName, phone },
-    });
-    patientId = patient.id;
+    const existing = await prisma.patient.findUnique({ where: { email } });
+    if (existing) {
+      patientId = existing.id;
+    } else {
+      const patient = await prisma.patient.create({
+        data: { email, firstName, lastName, phone },
+      });
+      patientId = patient.id;
+    }
   }
 
   if (patientId) {

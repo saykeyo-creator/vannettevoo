@@ -4,7 +4,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 vi.mock("@/lib/db", () => ({
   prisma: {
     patient: {
-      upsert: vi.fn().mockResolvedValue({ id: "test-patient-id" }),
+      findUnique: vi.fn().mockResolvedValue(null),
+      create: vi.fn().mockResolvedValue({ id: "test-patient-id" }),
     },
     booking: {
       create: vi.fn().mockResolvedValue({ id: "test-booking-id" }),
@@ -63,10 +64,9 @@ describe("API Routes", () => {
         data: { "First Name": "Jane", "Last Name": "Doe", "Email Address": "jane@test.com", "Phone Number": "0400000000" },
       });
       await POST(req as never);
-      expect(prisma.patient.upsert).toHaveBeenCalledWith(
+      expect(prisma.patient.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { email: "jane@test.com" },
-          create: expect.objectContaining({ firstName: "Jane", lastName: "Doe" }),
+          data: expect.objectContaining({ firstName: "Jane", lastName: "Doe" }),
         })
       );
       expect(prisma.surveySubmission.create).toHaveBeenCalledWith(
@@ -84,10 +84,9 @@ describe("API Routes", () => {
         feedback: {},
       });
       await POST(req as never);
-      expect(prisma.patient.upsert).toHaveBeenCalledWith(
+      expect(prisma.patient.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { email: "bob@test.com" },
-          create: expect.objectContaining({ firstName: "Bob", lastName: "Smith" }),
+          data: expect.objectContaining({ firstName: "Bob", lastName: "Smith" }),
         })
       );
       expect(prisma.surveySubmission.create).toHaveBeenCalledWith(
@@ -100,7 +99,7 @@ describe("API Routes", () => {
       const { POST } = await import("@/app/api/survey/route");
       const req = createMockRequest({ type: "intake", data: { "First Name": "No Email" } });
       await POST(req as never);
-      expect(prisma.patient.upsert).not.toHaveBeenCalled();
+      expect(prisma.patient.findUnique).not.toHaveBeenCalled();
       expect(prisma.surveySubmission.create).not.toHaveBeenCalled();
     });
   });
@@ -138,10 +137,9 @@ describe("API Routes", () => {
         Phone: "0400111222",
       });
       await POST(req as never);
-      expect(prisma.patient.upsert).toHaveBeenCalledWith(
+      expect(prisma.patient.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { email: "sarah@test.com" },
-          create: expect.objectContaining({ firstName: "Sarah Jane", lastName: "Connor" }),
+          data: expect.objectContaining({ firstName: "Sarah Jane", lastName: "Connor" }),
         })
       );
     });
@@ -175,11 +173,51 @@ describe("API Routes", () => {
         "Last Name": "Doe",
       });
       await POST(req as never);
-      expect(prisma.patient.upsert).toHaveBeenCalledWith(
+      expect(prisma.patient.findUnique).toHaveBeenCalledWith(
         expect.objectContaining({ where: { email: "book@test.com" } })
       );
       expect(prisma.booking.create).toHaveBeenCalledWith(
         expect.objectContaining({ data: expect.objectContaining({ date: "2026-03-10", time: "10:00 AM" }) })
+      );
+    });
+
+    it("does not overwrite existing patient when booking with same email", async () => {
+      const { prisma } = await import("@/lib/db");
+      // Simulate existing patient found
+      (prisma.patient.findUnique as ReturnType<typeof vi.fn>).mockResolvedValueOnce({ id: "existing-patient-id", firstName: "Original", lastName: "Name" });
+      const { POST } = await import("@/app/api/book/route");
+      const req = createMockRequest({
+        date: "2026-03-10",
+        time: "10:00 AM",
+        Email: "existing@test.com",
+        "First Name": "Different",
+        "Last Name": "Person",
+      });
+      await POST(req as never);
+      // Should NOT create a new patient — reuse existing
+      expect(prisma.patient.create).not.toHaveBeenCalled();
+      // Booking should use the existing patient's id
+      expect(prisma.booking.create).toHaveBeenCalledWith(
+        expect.objectContaining({ data: expect.objectContaining({ patientId: "existing-patient-id" }) })
+      );
+    });
+  });
+
+  describe("POST /api/survey — existing patient protection", () => {
+    it("does not overwrite existing patient when survey submitted with same email", async () => {
+      const { prisma } = await import("@/lib/db");
+      (prisma.patient.findUnique as ReturnType<typeof vi.fn>).mockResolvedValueOnce({ id: "existing-patient-id", firstName: "Original", lastName: "Name" });
+      const { POST } = await import("@/app/api/survey/route");
+      const req = createMockRequest({
+        type: "intake",
+        data: { "First Name": "Hacker", "Last Name": "Jones", "Email Address": "existing@test.com" },
+      });
+      await POST(req as never);
+      // Should NOT create a new patient — reuse existing
+      expect(prisma.patient.create).not.toHaveBeenCalled();
+      // Survey should use the existing patient's id
+      expect(prisma.surveySubmission.create).toHaveBeenCalledWith(
+        expect.objectContaining({ data: expect.objectContaining({ patientId: "existing-patient-id" }) })
       );
     });
   });
