@@ -1,13 +1,18 @@
 /**
  * Email notification utility.
  *
- * Currently logs notifications to console. When an email provider is configured
- * (e.g. Resend, SendGrid, or nodemailer), update sendEmail() to actually send.
- *
+ * Uses Resend when RESEND_API_KEY is set. Falls back to console logging otherwise.
  * Set NOTIFICATION_EMAIL in .env to control the admin recipient address.
+ * Set RESEND_FROM_EMAIL for the sender address (must be verified in Resend).
  */
 
+import { Resend } from "resend";
+
 const ADMIN_EMAIL = process.env.NOTIFICATION_EMAIL || "hello@vannettevu.com";
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Vannette Vu <noreply@vannettevu.com>";
+
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 interface EmailPayload {
   to: string;
@@ -16,9 +21,23 @@ interface EmailPayload {
 }
 
 async function sendEmail(payload: EmailPayload): Promise<boolean> {
-  // TODO: Replace with actual email provider (Resend, SendGrid, etc.)
-  console.log(`[Notification] To: ${payload.to} | Subject: ${payload.subject}`);
-  return true;
+  if (resend) {
+    try {
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: payload.to,
+        subject: payload.subject,
+        text: payload.body,
+      });
+      return true;
+    } catch (err) {
+      console.error("[Notification] Failed to send email:", err);
+      return false;
+    }
+  }
+
+  console.log(`[Notification] (no RESEND_API_KEY) To: ${payload.to} | Subject: ${payload.subject}`);
+  return false;
 }
 
 export async function notifyAdminNewBooking(patientName: string, date: string, time: string) {

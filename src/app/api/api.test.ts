@@ -13,6 +13,7 @@ vi.mock("@/lib/db", () => ({
     },
     booking: {
       create: vi.fn().mockResolvedValue({ id: "test-booking-id" }),
+      findFirst: vi.fn().mockResolvedValue(null),
       findUnique: vi.fn().mockResolvedValue({ id: "test-booking-id", status: "pending", patientId: "test-patient-id", date: "2026-01-01", time: "10:00 AM" }),
       findMany: vi.fn().mockResolvedValue([]),
       update: vi.fn().mockResolvedValue({ id: "test-booking-id", status: "confirmed" }),
@@ -612,6 +613,113 @@ describe("API Routes", () => {
       (auth as ReturnType<typeof vi.fn>).mockResolvedValueOnce(null);
       const { GET } = await import("@/app/api/admin/bookings/route");
       const res = await GET(createGetRequest("2026-03") as never);
+      expect(res.status).toBe(401);
+    });
+  });
+
+  describe("POST /api/book — conflict detection", () => {
+    it("returns 409 when time slot already booked", async () => {
+      const { prisma } = await import("@/lib/db");
+      (prisma.booking.findFirst as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+        id: "existing-id",
+        date: "2026-03-10",
+        time: "10:00 AM",
+        status: "confirmed",
+      });
+      const { POST } = await import("@/app/api/book/route");
+      const req = createMockRequest({
+        date: "2026-03-10",
+        time: "10:00 AM",
+        Email: "test@test.com",
+        "First Name": "Test",
+        "Last Name": "User",
+      });
+      const res = await POST(req as never);
+      expect(res.status).toBe(409);
+      const json = await res.json();
+      expect(json.error).toContain("already booked");
+    });
+
+    it("allows booking when no conflict exists", async () => {
+      const { prisma } = await import("@/lib/db");
+      (prisma.booking.findFirst as ReturnType<typeof vi.fn>).mockResolvedValueOnce(null);
+      const { POST } = await import("@/app/api/book/route");
+      const req = createMockRequest({
+        date: "2026-03-10",
+        time: "11:00 AM",
+        Email: "test@test.com",
+        "First Name": "Test",
+        "Last Name": "User",
+      });
+      const res = await POST(req as never);
+      const json = await res.json();
+      expect(json.success).toBe(true);
+    });
+  });
+
+  describe("POST /api/admin/bookings — admin booking creation", () => {
+    it("creates booking for valid input", async () => {
+      const { prisma } = await import("@/lib/db");
+      (prisma.patient.findUnique as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+        id: "p1", firstName: "Jane", lastName: "Doe",
+      });
+      (prisma.booking.findFirst as ReturnType<typeof vi.fn>).mockResolvedValueOnce(null);
+      const { POST } = await import("@/app/api/admin/bookings/route");
+      const req = {
+        json: () => Promise.resolve({ patientId: "p1", date: "2026-05-01", time: "9:00 AM", notes: "Initial" }),
+      } as never;
+      const res = await POST(req as never);
+      expect(res.status).toBe(201);
+      expect(prisma.booking.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ patientId: "p1", date: "2026-05-01", time: "9:00 AM", status: "confirmed" }),
+        })
+      );
+    });
+
+    it("returns 400 when required fields missing", async () => {
+      const { POST } = await import("@/app/api/admin/bookings/route");
+      const req = { json: () => Promise.resolve({ date: "2026-05-01" }) } as never;
+      const res = await POST(req as never);
+      expect(res.status).toBe(400);
+    });
+
+    it("returns 400 for invalid date format", async () => {
+      const { POST } = await import("@/app/api/admin/bookings/route");
+      const req = { json: () => Promise.resolve({ patientId: "p1", date: "05/01/2026", time: "9:00 AM" }) } as never;
+      const res = await POST(req as never);
+      expect(res.status).toBe(400);
+    });
+
+    it("returns 404 when patient not found", async () => {
+      const { prisma } = await import("@/lib/db");
+      (prisma.patient.findUnique as ReturnType<typeof vi.fn>).mockResolvedValueOnce(null);
+      const { POST } = await import("@/app/api/admin/bookings/route");
+      const req = { json: () => Promise.resolve({ patientId: "missing", date: "2026-05-01", time: "9:00 AM" }) } as never;
+      const res = await POST(req as never);
+      expect(res.status).toBe(404);
+    });
+
+    it("returns 409 for double-booking", async () => {
+      const { prisma } = await import("@/lib/db");
+      (prisma.patient.findUnique as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+        id: "p1", firstName: "Jane", lastName: "Doe",
+      });
+      (prisma.booking.findFirst as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+        id: "existing", date: "2026-05-01", time: "9:00 AM", status: "confirmed",
+      });
+      const { POST } = await import("@/app/api/admin/bookings/route");
+      const req = { json: () => Promise.resolve({ patientId: "p1", date: "2026-05-01", time: "9:00 AM" }) } as never;
+      const res = await POST(req as never);
+      expect(res.status).toBe(409);
+    });
+
+    it("returns 401 when not authenticated", async () => {
+      const { auth } = await import("@/lib/auth");
+      (auth as ReturnType<typeof vi.fn>).mockResolvedValueOnce(null);
+      const { POST } = await import("@/app/api/admin/bookings/route");
+      const req = { json: () => Promise.resolve({ patientId: "p1", date: "2026-05-01", time: "9:00 AM" }) } as never;
+      const res = await POST(req as never);
       expect(res.status).toBe(401);
     });
   });

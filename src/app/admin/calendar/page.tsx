@@ -54,6 +54,17 @@ export default function CalendarPage() {
   const [rangeEnd, setRangeEnd] = useState("");
   const [reason, setReason] = useState("");
 
+  // Admin booking form
+  const [showBookingForm, setShowBookingForm] = useState(false);
+  const [bookPatientSearch, setBookPatientSearch] = useState("");
+  const [bookPatients, setBookPatients] = useState<{ id: string; firstName: string; lastName: string; email: string }[]>([]);
+  const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+  const [selectedPatientLabel, setSelectedPatientLabel] = useState("");
+  const [bookTime, setBookTime] = useState("");
+  const [bookNotes, setBookNotes] = useState("");
+  const [bookingSubmitting, setBookingSubmitting] = useState(false);
+  const [bookingError, setBookingError] = useState("");
+
   const monthStr = `${viewYear}-${pad(viewMonth + 1)}`;
 
   const fetchData = useCallback(async () => {
@@ -73,6 +84,56 @@ export default function CalendarPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // Patient search for admin booking
+  useEffect(() => {
+    if (bookPatientSearch.length < 2) { setBookPatients([]); return; }
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const res = await fetch(`/api/admin/patients?q=${encodeURIComponent(bookPatientSearch)}`, { signal: controller.signal });
+        if (res.ok) {
+          const data = await res.json();
+          setBookPatients(data.patients ?? []);
+        }
+      } catch { /* aborted or network error */ }
+    })();
+    return () => controller.abort();
+  }, [bookPatientSearch]);
+
+  const handleAdminBooking = async () => {
+    if (!selectedPatientId || !selectedDate || !bookTime) return;
+    setBookingSubmitting(true);
+    setBookingError("");
+    try {
+      const res = await fetch("/api/admin/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId: selectedPatientId,
+          date: selectedDate,
+          time: bookTime,
+          notes: bookNotes || null,
+        }),
+      });
+      if (res.ok) {
+        setShowBookingForm(false);
+        setSelectedPatientId(null);
+        setSelectedPatientLabel("");
+        setBookPatientSearch("");
+        setBookTime("");
+        setBookNotes("");
+        fetchData();
+      } else {
+        const data = await res.json();
+        setBookingError(data.error || "Failed to create booking");
+      }
+    } catch {
+      setBookingError("Network error");
+    } finally {
+      setBookingSubmitting(false);
+    }
+  };
 
   const days = getDaysInMonth(viewYear, viewMonth);
   const firstDayOffset = (days[0].getDay() + 6) % 7;
@@ -378,6 +439,133 @@ export default function CalendarPage() {
                   </div>
                 </div>
               )}
+
+              {/* Admin booking form */}
+              <div className="bg-white rounded-xl border border-slate-200 p-4">
+                {!showBookingForm ? (
+                  <button
+                    onClick={() => setShowBookingForm(true)}
+                    className="w-full py-2.5 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 transition-colors"
+                  >
+                    + Book Appointment
+                  </button>
+                ) : (
+                  <>
+                    <h3 className="font-bold text-slate-900 text-sm mb-3">
+                      Book Appointment — {new Date(selectedDate + "T12:00:00").toLocaleDateString("en-AU", {
+                        weekday: "short", day: "numeric", month: "short",
+                      })}
+                    </h3>
+
+                    {/* Patient search */}
+                    <div className="relative">
+                      <label className="text-xs text-slate-500">Patient</label>
+                      {selectedPatientId ? (
+                        <div className="flex items-center justify-between bg-teal-50 rounded-lg px-3 py-2 mt-1">
+                          <span className="text-sm text-slate-700">{selectedPatientLabel}</span>
+                          <button
+                            onClick={() => {
+                              setSelectedPatientId(null);
+                              setSelectedPatientLabel("");
+                              setBookPatientSearch("");
+                            }}
+                            className="text-xs text-slate-400 hover:text-slate-600"
+                          >
+                            Change
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <input
+                            type="text"
+                            value={bookPatientSearch}
+                            onChange={(e) => setBookPatientSearch(e.target.value)}
+                            placeholder="Search by name or email..."
+                            className="block w-full rounded-lg border border-slate-200 px-3 py-2 text-sm mt-1"
+                          />
+                          {bookPatients.length > 0 && (
+                            <div className="absolute z-10 left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-40 overflow-y-auto">
+                              {bookPatients.map((p) => (
+                                <button
+                                  key={p.id}
+                                  onClick={() => {
+                                    setSelectedPatientId(p.id);
+                                    setSelectedPatientLabel(`${p.firstName} ${p.lastName}`);
+                                    setBookPatientSearch("");
+                                    setBookPatients([]);
+                                  }}
+                                  className="w-full text-left px-3 py-2 hover:bg-slate-50 text-sm"
+                                >
+                                  <span className="font-medium">{p.firstName} {p.lastName}</span>
+                                  <span className="text-slate-400 ml-2">{p.email}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+
+                    {/* Time */}
+                    <div className="mt-3">
+                      <label className="text-xs text-slate-500">Time</label>
+                      <select
+                        value={bookTime}
+                        onChange={(e) => setBookTime(e.target.value)}
+                        className="block w-full rounded-lg border border-slate-200 px-3 py-2 text-sm mt-1"
+                      >
+                        <option value="">Select time...</option>
+                        {Array.from({ length: 17 }, (_, i) => {
+                          const h = 9 + Math.floor(i / 2);
+                          const m = i % 2 === 0 ? "00" : "30";
+                          const time = `${h}:${m} ${h < 12 ? "AM" : "PM"}`;
+                          const h12 = h > 12 ? h - 12 : h;
+                          return (
+                            <option key={time} value={time}>
+                              {h12}:{m} {h < 12 ? "AM" : "PM"}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+
+                    {/* Notes */}
+                    <div className="mt-3">
+                      <label className="text-xs text-slate-500">Notes (optional)</label>
+                      <input
+                        type="text"
+                        value={bookNotes}
+                        onChange={(e) => setBookNotes(e.target.value)}
+                        placeholder="e.g. Initial consultation"
+                        className="block w-full rounded-lg border border-slate-200 px-3 py-2 text-sm mt-1"
+                      />
+                    </div>
+
+                    {bookingError && (
+                      <p className="mt-2 text-xs text-red-600">{bookingError}</p>
+                    )}
+
+                    <div className="mt-4 flex gap-2">
+                      <button
+                        onClick={handleAdminBooking}
+                        disabled={!selectedPatientId || !bookTime || bookingSubmitting}
+                        className="flex-1 py-2.5 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {bookingSubmitting ? "Booking..." : "Confirm Booking"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowBookingForm(false);
+                          setBookingError("");
+                        }}
+                        className="px-4 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </>
           ) : (
             <div className="bg-white rounded-xl border border-slate-200 p-8 text-center">

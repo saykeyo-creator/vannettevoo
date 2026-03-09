@@ -52,6 +52,18 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  // Reject double-bookings — same date+time with an active booking
+  const existingBooking = await prisma.booking.findFirst({
+    where: {
+      date: body.date,
+      time: body.time,
+      status: { in: ["pending", "confirmed"] },
+    },
+  });
+  if (existingBooking) {
+    return NextResponse.json({ error: "This time slot is already booked" }, { status: 409 });
+  }
+
   const email = (body.Email || body.email || "").trim().toLowerCase();
   const phone = (body.Phone || body.phone || "").trim() || null;
   const bookingNotes = (body.Notes || body.notes || "").trim() || null;

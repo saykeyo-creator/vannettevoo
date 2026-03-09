@@ -439,7 +439,7 @@
       "confirmationMessage": {
         "heading": "Survey Submitted Successfully",
         "text": "Thank you for taking the time to complete the intake survey. Vannette Vu will review your responses before your appointment to ensure you receive the most personalised care possible.",
-        "emailNote": "A confirmation has been sent to your email address.",
+        "emailNote": "Your responses have been securely recorded.",
         "nextAction": {
           "label": "Book Your Appointment",
           "href": "/book",
