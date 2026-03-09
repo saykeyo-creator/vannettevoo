@@ -45,8 +45,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static z-40 h-screen w-56 bg-slate-900 text-white flex flex-col transition-transform duration-200 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        className={`fixed md:static z-40 h-screen w-56 bg-slate-900 text-white flex flex-col transition-transform duration-200 right-0 md:right-auto md:left-0 ${
+          sidebarOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"
         }`}
       >
         <div className="px-4 py-5 border-b border-slate-700">
