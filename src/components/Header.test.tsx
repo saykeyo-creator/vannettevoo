@@ -45,12 +45,12 @@ describe("Header", () => {
   it("renders all navigation links on desktop", () => {
     render(<Header />);
     const navLinks = screen.getAllByRole("link");
-    // Logo link + 7 nav links (desktop) + 7 nav links (mobile hidden initially)
+    // Logo link + 8 nav links (desktop) + 8 nav links (mobile hidden initially)
     // Actually mobile nav is conditionally rendered, so just desktop links
     const desktopNav = navLinks.filter(
       (link) => !link.closest("nav.md\\:hidden")
     );
-    expect(desktopNav.length).toBeGreaterThanOrEqual(7);
+    expect(desktopNav.length).toBeGreaterThanOrEqual(8);
   });
 
   it("renders the menu toggle button", () => {
@@ -120,5 +120,13 @@ describe("Header", () => {
       link.className.includes("text-teal-700")
     );
     expect(activeLink).toBeTruthy();
+  });
+
+  it("includes Progress Survey link in navigation", () => {
+    render(<Header />);
+    const surveyLinks = screen.getAllByText("Progress Survey");
+    expect(surveyLinks.length).toBeGreaterThanOrEqual(1);
+    const link = surveyLinks[0].closest("a");
+    expect(link).toHaveAttribute("href", "/survey/progress");
   });
 });

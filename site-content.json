@@ -18,6 +18,7 @@
     { "label": "Conditions", "href": "/conditions" },
     { "label": "Services", "href": "/services" },
     { "label": "New Patients", "href": "/new-patient" },
+    { "label": "Progress Survey", "href": "/survey/progress" },
     { "label": "Book", "href": "/book" },
     { "label": "Contact", "href": "/contact" }
   ],
@@ -316,6 +317,31 @@
           "This assessment includes testing of your cranial nerves, eye movements, vestibular function, balance, coordination, reflexes, and cognitive function. The goal is to build a detailed map of how your brain and nervous system are functioning right now.",
           "At the end of your assessment, Vannette Vu will explain her findings in plain language, answer all your questions, and outline a personalised rehabilitation plan — including what exercises to do at home and how often to return for in-clinic sessions."
         ]
+      },
+      "pricing": {
+        "heading": "Investment in Your Health",
+        "introText": "Transparent, straightforward pricing with no hidden fees. All sessions include a personalised home exercise programme.",
+        "items": [
+          {
+            "name": "Initial Consultation",
+            "duration": "60–90 minutes",
+            "price": "$250",
+            "description": "Comprehensive neurological assessment, detailed findings, and personalised rehabilitation plan."
+          },
+          {
+            "name": "Follow-up Session",
+            "duration": "30–45 minutes",
+            "price": "$150",
+            "description": "Progress review, updated assessments, and adjusted home exercise programme."
+          },
+          {
+            "name": "Extended Follow-up",
+            "duration": "60 minutes",
+            "price": "$200",
+            "description": "In-depth reassessment for complex cases or milestone check-ins."
+          }
+        ],
+        "note": "Private health fund rebates may be available depending on your level of cover. Please check with your provider."
       }
     },
 

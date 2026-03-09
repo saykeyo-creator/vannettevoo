@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 
 interface BlockedEntry {
   id: string;
@@ -8,6 +9,15 @@ interface BlockedEntry {
   startTime: string | null;
   endTime: string | null;
   reason: string | null;
+}
+
+interface CalendarBooking {
+  id: string;
+  date: string;
+  time: string;
+  status: string;
+  patientId: string;
+  patient: { firstName: string; lastName: string };
 }
 
 function getDaysInMonth(year: number, month: number): Date[] {
@@ -33,6 +43,7 @@ export default function CalendarPage() {
   const [viewMonth, setViewMonth] = useState(today.getMonth());
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [blocked, setBlocked] = useState<BlockedEntry[]>([]);
+  const [bookings, setBookings] = useState<CalendarBooking[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
@@ -45,19 +56,23 @@ export default function CalendarPage() {
 
   const monthStr = `${viewYear}-${pad(viewMonth + 1)}`;
 
-  const fetchBlocked = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/blocked-time?month=${monthStr}`);
-      if (res.ok) setBlocked(await res.json());
+      const [blockedRes, bookingsRes] = await Promise.all([
+        fetch(`/api/admin/blocked-time?month=${monthStr}`),
+        fetch(`/api/admin/bookings?month=${monthStr}`),
+      ]);
+      if (blockedRes.ok) setBlocked(await blockedRes.json());
+      if (bookingsRes.ok) setBookings(await bookingsRes.json());
     } finally {
       setLoading(false);
     }
   }, [monthStr]);
 
   useEffect(() => {
-    fetchBlocked();
-  }, [fetchBlocked]);
+    fetchData();
+  }, [fetchData]);
 
   const days = getDaysInMonth(viewYear, viewMonth);
   const firstDayOffset = (days[0].getDay() + 6) % 7;
@@ -68,6 +83,13 @@ export default function CalendarPage() {
   const partialBlockedDates = new Set(
     blocked.filter((b) => b.startTime).map((b) => b.date)
   );
+
+  const bookingsByDate = new Map<string, CalendarBooking[]>();
+  for (const b of bookings) {
+    const existing = bookingsByDate.get(b.date) || [];
+    existing.push(b);
+    bookingsByDate.set(b.date, existing);
+  }
 
   const prevMonth = () => {
     if (viewMonth === 0) { setViewMonth(11); setViewYear(viewYear - 1); }
@@ -93,7 +115,7 @@ export default function CalendarPage() {
         setSelectedDate(null);
         setReason("");
         setRangeEnd("");
-        fetchBlocked();
+        fetchData();
       }
       return;
     }
@@ -112,16 +134,17 @@ export default function CalendarPage() {
     if (res.ok) {
       setSelectedDate(null);
       setReason("");
-      fetchBlocked();
+      fetchData();
     }
   };
 
   const handleUnblock = async (id: string) => {
     const res = await fetch(`/api/admin/blocked-time?id=${encodeURIComponent(id)}`, { method: "DELETE" });
-    if (res.ok) fetchBlocked();
+    if (res.ok) fetchData();
   };
 
   const selectedBlocks = blocked.filter((b) => b.date === selectedDate);
+  const selectedBookings = bookingsByDate.get(selectedDate ?? "") ?? [];
 
   return (
     <>
@@ -158,6 +181,7 @@ export default function CalendarPage() {
               const dateStr = toDateStr(day);
               const isFullBlocked = blockedDates.has(dateStr);
               const isPartialBlocked = partialBlockedDates.has(dateStr);
+              const hasBookings = bookingsByDate.has(dateStr);
               const isSelected = selectedDate === dateStr;
               const isToday = dateStr === toDateStr(today);
 
@@ -178,9 +202,14 @@ export default function CalendarPage() {
                   }`}
                 >
                   {day.getDate()}
-                  {isPartialBlocked && !isFullBlocked && (
-                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-amber-500 rounded-full" />
-                  )}
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-0.5">
+                    {isPartialBlocked && !isFullBlocked && (
+                      <span className="w-1 h-1 bg-amber-500 rounded-full" />
+                    )}
+                    {hasBookings && (
+                      <span className="w-1 h-1 bg-teal-500 rounded-full" data-testid={`booking-dot-${dateStr}`} />
+                    )}
+                  </span>
                 </button>
               );
             })}
@@ -189,12 +218,15 @@ export default function CalendarPage() {
           {loading && <p className="text-xs text-slate-400 mt-2 text-center">Loading…</p>}
 
           {/* Legend */}
-          <div className="mt-4 flex gap-4 text-xs text-slate-500">
+          <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-500">
             <span className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded bg-red-100 border border-red-200" /> Full day blocked
             </span>
             <span className="flex items-center gap-1.5">
               <span className="w-3 h-3 rounded bg-amber-50 border border-amber-200" /> Hours blocked
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-teal-500" /> Has bookings
             </span>
           </div>
         </div>
@@ -309,6 +341,39 @@ export default function CalendarPage() {
                           Remove
                         </button>
                       </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Bookings for this date */}
+              {selectedBookings.length > 0 && (
+                <div className="bg-white rounded-xl border border-slate-200 p-4">
+                  <h4 className="font-semibold text-slate-900 text-xs uppercase tracking-wide mb-3">
+                    Bookings
+                  </h4>
+                  <div className="space-y-2">
+                    {selectedBookings.map((b) => (
+                      <Link
+                        key={b.id}
+                        href={`/admin/patients/${b.patientId}`}
+                        className="flex items-center justify-between bg-teal-50 rounded-lg px-3 py-2 hover:bg-teal-100 transition-colors"
+                      >
+                        <div>
+                          <p className="text-sm font-medium text-slate-700">
+                            {b.patient.firstName} {b.patient.lastName}
+                          </p>
+                          <p className="text-xs text-slate-500">{b.time}</p>
+                        </div>
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                          b.status === "confirmed" ? "bg-green-100 text-green-700"
+                          : b.status === "completed" ? "bg-blue-100 text-blue-700"
+                          : b.status === "cancelled" ? "bg-red-100 text-red-700"
+                          : "bg-amber-100 text-amber-700"
+                        }`}>
+                          {b.status}
+                        </span>
+                      </Link>
                     ))}
                   </div>
                 </div>

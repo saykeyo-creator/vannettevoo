@@ -36,6 +36,7 @@ model Patient {
   email     String   @unique
   phone     String?
   dob       String?  // date of birth
+  status    String   @default("active") // active | archived
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -47,11 +48,15 @@ model Patient {
 model PatientNote {
   id        String   @id @default(cuid())
   content   String
+  category  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId String
+
+  booking   Booking? @relation(fields: [bookingId], references: [id])
+  bookingId String?
 
   @@index([patientId])
 }
@@ -76,8 +81,9 @@ model Booking {
   notes     String?
   createdAt DateTime @default(now())
 
-  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  patientId String
+  patient      Patient       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId    String
+  clinicalNotes PatientNote[]
 
   @@index([patientId])
   @@index([date])

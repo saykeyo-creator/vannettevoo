@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run --exclude src/test/integration.test.ts",
-    "test:integration": "vitest run src/test/integration.test.ts",
+    "test:integration": "powershell -ExecutionPolicy Bypass -File scripts/test-integration.ps1",
+    "test:integration:ci": "vitest run src/test/integration.test.ts",
     "test:all": "vitest run",
     "test:watch": "vitest"
   },

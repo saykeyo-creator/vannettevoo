@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { notifyAdminNewContact } from "@/lib/notifications";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -17,6 +18,8 @@ export async function POST(request: NextRequest) {
       message: body.Message,
     },
   });
+
+  notifyAdminNewContact(body.Name, body.Email).catch(() => {});
 
   return NextResponse.json({ success: true });
 }

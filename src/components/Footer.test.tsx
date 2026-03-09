@@ -58,4 +58,10 @@ describe("Footer", () => {
     const emailLink = screen.getByText("hello@vannettevu.com").closest("a")!;
     expect(emailLink.className).toContain("break-all");
   });
+
+  it("includes Progress Survey in quick links", () => {
+    render(<Footer />);
+    const link = screen.getByText("Progress Survey");
+    expect(link.closest("a")).toHaveAttribute("href", "/survey/progress");
+  });
 });

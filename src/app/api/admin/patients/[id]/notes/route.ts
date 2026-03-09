@@ -11,14 +11,24 @@ export async function POST(
 
   const { id } = await params;
   const body = await req.json();
-  const { content } = body;
+  const { content, bookingId, category } = body;
 
   if (!content || typeof content !== "string" || !content.trim()) {
     return NextResponse.json({ error: "Note content required" }, { status: 400 });
   }
 
+  const validCategories = ["Session Notes", "Assessment", "Treatment Plan", "Follow-up", "General"];
+  if (category && !validCategories.includes(category)) {
+    return NextResponse.json({ error: "Invalid category" }, { status: 400 });
+  }
+
   const note = await prisma.patientNote.create({
-    data: { patientId: id, content: content.trim() },
+    data: {
+      patientId: id,
+      content: content.trim(),
+      ...(bookingId ? { bookingId } : {}),
+      ...(category ? { category } : {}),
+    },
   });
 
   return NextResponse.json(note, { status: 201 });

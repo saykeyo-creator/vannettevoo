@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { notifyAdminNewBooking } from "@/lib/notifications";
 
 function splitFullName(fullName: string): { firstName: string; lastName: string } {
   const parts = fullName.trim().split(/\s+/);
@@ -87,6 +88,9 @@ export async function POST(request: NextRequest) {
         patientId,
       },
     });
+
+    const name = [firstName, lastName].filter(Boolean).join(" ") || email;
+    notifyAdminNewBooking(name, body.date, body.time).catch(() => {});
   }
 
   return NextResponse.json({ success: true });

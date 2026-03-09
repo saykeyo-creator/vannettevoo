@@ -5,7 +5,7 @@ import Section, { SectionHeading, SectionSubtext } from "@/components/Section";
 export const metadata: Metadata = { title: "Services" };
 
 export default function ServicesPage() {
-  const { heading, introText, therapies, firstVisit } = content.pages.services;
+  const { heading, introText, therapies, firstVisit, pricing } = content.pages.services;
 
   return (
     <>
@@ -36,6 +36,27 @@ export default function ServicesPage() {
             </p>
           ))}
         </div>
+      </Section>
+
+      <Section>
+        <SectionHeading>{pricing.heading}</SectionHeading>
+        <SectionSubtext>{pricing.introText}</SectionSubtext>
+        <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {pricing.items.map((item) => (
+            <div
+              key={item.name}
+              className="rounded-xl border border-slate-200 p-5 flex flex-col"
+            >
+              <h3 className="font-semibold text-slate-900 text-sm">{item.name}</h3>
+              <p className="text-xs text-slate-400 mt-1">{item.duration}</p>
+              <p className="text-2xl font-bold text-teal-600 mt-3">{item.price}</p>
+              <p className="mt-3 text-sm text-slate-500 leading-relaxed flex-1">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-6 text-xs text-slate-400 text-center">{pricing.note}</p>
       </Section>
     </>
   );

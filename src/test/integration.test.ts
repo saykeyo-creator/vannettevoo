@@ -26,6 +26,14 @@ vi.mock("@/lib/auth", () => ({
   auth: vi.fn().mockResolvedValue({ user: { email: "admin@test.com" } }),
 }));
 
+// Mock notifications (placeholder — no real email sending in tests)
+vi.mock("@/lib/notifications", () => ({
+  notifyAdminNewBooking: vi.fn().mockResolvedValue(true),
+  notifyAdminNewContact: vi.fn().mockResolvedValue(true),
+  notifyAdminNewSurvey: vi.fn().mockResolvedValue(true),
+  notifyPatientBookingConfirmed: vi.fn().mockResolvedValue(true),
+}));
+
 // ---------- Request helpers ----------
 
 function mockRequest(body: unknown) {
@@ -732,5 +740,228 @@ describeIf("Integration: Data Integrity Guards", () => {
     );
     expect(res.status).toBe(400);
     expect(await testPrisma.contactMessage.count()).toBe(0);
+  });
+});
+
+// =====================================================================
+// NEW INTEGRATION TESTS — Phase 23 Improvements
+// =====================================================================
+
+describeIf("Integration: Completed Booking Status (#2)", () => {
+  it("allows booking to move through full lifecycle: pending → confirmed → completed", async () => {
+    const { POST: bookPost } = await import("@/app/api/book/route");
+    const { PATCH: bookingPatch } = await import("@/app/api/admin/bookings/[id]/route");
+
+    await bookPost(
+      mockRequest({
+        date: "2026-05-01",
+        time: "9:00 AM",
+        "Full Name": "Lifecycle Test",
+        Email: "lifecycle@test.com",
+      })
+    );
+
+    const patient = await testPrisma.patient.findUnique({ where: { email: "lifecycle@test.com" } });
+    const booking = await testPrisma.booking.findFirst({ where: { patientId: patient.id } });
+    expect(booking.status).toBe("pending");
+
+    // Confirm
+    await bookingPatch(mockRequest({ status: "confirmed" }), {
+      params: Promise.resolve({ id: booking.id }),
+    });
+    const confirmed = await testPrisma.booking.findUnique({ where: { id: booking.id } });
+    expect(confirmed.status).toBe("confirmed");
+
+    // Complete
+    await bookingPatch(mockRequest({ status: "completed" }), {
+      params: Promise.resolve({ id: booking.id }),
+    });
+    const completed = await testPrisma.booking.findUnique({ where: { id: booking.id } });
+    expect(completed.status).toBe("completed");
+  });
+});
+
+describeIf("Integration: Calendar Bookings Endpoint (#3)", () => {
+  it("returns bookings filtered by month via GET /api/admin/bookings", async () => {
+    const { POST: bookPost } = await import("@/app/api/book/route");
+    const { GET: bookingsGet } = await import("@/app/api/admin/bookings/route");
+
+    // Create bookings in two different months
+    await bookPost(
+      mockRequest({
+        date: "2026-06-15",
+        time: "10:00 AM",
+        "Full Name": "June Patient",
+        Email: "june@test.com",
+      })
+    );
+    await bookPost(
+      mockRequest({
+        date: "2026-07-20",
+        time: "2:00 PM",
+        "Full Name": "July Patient",
+        Email: "july@test.com",
+      })
+    );
+
+    // Fetch June bookings
+    const juneRes = await bookingsGet({ nextUrl: new URL("http://localhost:3000/api/admin/bookings?month=2026-06") } as any);
+    const juneData = await juneRes.json();
+    expect(juneData).toHaveLength(1);
+    expect(juneData[0].date).toBe("2026-06-15");
+
+    // Fetch July bookings
+    const julyRes = await bookingsGet({ nextUrl: new URL("http://localhost:3000/api/admin/bookings?month=2026-07") } as any);
+    const julyData = await julyRes.json();
+    expect(julyData).toHaveLength(1);
+    expect(julyData[0].date).toBe("2026-07-20");
+  });
+});
+
+describeIf("Integration: Booking-linked Notes (#7)", () => {
+  it("creates a note linked to a booking and returns booking details on patient fetch", async () => {
+    const { POST: bookPost } = await import("@/app/api/book/route");
+    const { POST: notePost } = await import("@/app/api/admin/patients/[id]/notes/route");
+    const { GET: patientGet } = await import("@/app/api/admin/patients/[id]/route");
+
+    await bookPost(
+      mockRequest({
+        date: "2026-08-10",
+        time: "11:00 AM",
+        "Full Name": "Note Link Test",
+        Email: "notelink@test.com",
+      })
+    );
+
+    const patient = await testPrisma.patient.findUnique({ where: { email: "notelink@test.com" } });
+    const booking = await testPrisma.booking.findFirst({ where: { patientId: patient.id } });
+
+    // Create note linked to the booking
+    const noteRes = await notePost(
+      mockRequest({ content: "Linked session note", bookingId: booking.id }),
+      { params: Promise.resolve({ id: patient.id }) }
+    );
+    expect(noteRes.status).toBe(201);
+
+    // Fetch patient detail and verify note has booking info
+    const detailRes = await patientGet(
+      mockGetRequest(`/api/admin/patients/${patient.id}`),
+      { params: Promise.resolve({ id: patient.id }) }
+    );
+    const detail = await detailRes.json();
+    expect(detail.notes).toHaveLength(1);
+    expect(detail.notes[0].content).toBe("Linked session note");
+    expect(detail.notes[0].booking).not.toBeNull();
+    expect(detail.notes[0].booking.date).toBe("2026-08-10");
+    expect(detail.notes[0].booking.time).toBe("11:00 AM");
+  });
+});
+
+describeIf("Integration: Note Categories (#10)", () => {
+  it("creates a note with category and rejects invalid categories", async () => {
+    const { POST: bookPost } = await import("@/app/api/book/route");
+    const { POST: notePost } = await import("@/app/api/admin/patients/[id]/notes/route");
+
+    await bookPost(
+      mockRequest({
+        date: "2026-09-01",
+        time: "9:00 AM",
+        "Full Name": "Category Test",
+        Email: "category@test.com",
+      })
+    );
+
+    const patient = await testPrisma.patient.findUnique({ where: { email: "category@test.com" } });
+
+    // Valid category
+    const res1 = await notePost(
+      mockRequest({ content: "Treatment plan update", category: "Treatment Plan" }),
+      { params: Promise.resolve({ id: patient.id }) }
+    );
+    expect(res1.status).toBe(201);
+
+    // Verify category saved in DB
+    const note = await testPrisma.patientNote.findFirst({ where: { patientId: patient.id } });
+    expect(note.category).toBe("Treatment Plan");
+
+    // Invalid category
+    const res2 = await notePost(
+      mockRequest({ content: "Bad category", category: "InvalidCategory" }),
+      { params: Promise.resolve({ id: patient.id }) }
+    );
+    expect(res2.status).toBe(400);
+  });
+});
+
+describeIf("Integration: Email Notifications (#11)", () => {
+  it("triggers notification when booking is created and confirmed", async () => {
+    const { notifyAdminNewBooking, notifyPatientBookingConfirmed } = await import("@/lib/notifications");
+    const { POST: bookPost } = await import("@/app/api/book/route");
+    const { PATCH: bookingPatch } = await import("@/app/api/admin/bookings/[id]/route");
+
+    vi.mocked(notifyAdminNewBooking).mockClear();
+    vi.mocked(notifyPatientBookingConfirmed).mockClear();
+
+    await bookPost(
+      mockRequest({
+        date: "2026-10-01",
+        time: "3:00 PM",
+        "Full Name": "Notify Test",
+        Email: "notify@test.com",
+      })
+    );
+
+    // Booking creation should trigger admin notification
+    expect(notifyAdminNewBooking).toHaveBeenCalled();
+
+    const patient = await testPrisma.patient.findUnique({ where: { email: "notify@test.com" } });
+    const booking = await testPrisma.booking.findFirst({ where: { patientId: patient.id } });
+
+    // Confirming should trigger patient notification
+    await bookingPatch(mockRequest({ status: "confirmed" }), {
+      params: Promise.resolve({ id: booking.id }),
+    });
+    expect(notifyPatientBookingConfirmed).toHaveBeenCalledWith(
+      "notify@test.com",
+      expect.any(String),
+      expect.any(String)
+    );
+  });
+
+  it("triggers notification when contact message is submitted", async () => {
+    const { notifyAdminNewContact } = await import("@/lib/notifications");
+    const { POST: contactPost } = await import("@/app/api/contact/route");
+
+    vi.mocked(notifyAdminNewContact).mockClear();
+
+    await contactPost(
+      mockRequest({
+        Name: "Contact Test",
+        Email: "contact@test.com",
+        Message: "Hello there",
+      })
+    );
+
+    expect(notifyAdminNewContact).toHaveBeenCalledWith("Contact Test", "contact@test.com");
+  });
+
+  it("triggers notification when survey is submitted", async () => {
+    const { notifyAdminNewSurvey } = await import("@/lib/notifications");
+    const { POST: surveyPost } = await import("@/app/api/survey/route");
+
+    vi.mocked(notifyAdminNewSurvey).mockClear();
+
+    await surveyPost(
+      mockRequest({
+        type: "intake",
+        data: {
+          "First Name": "Survey",
+          "Last Name": "Test",
+          "Email Address": "surveynotify@test.com",
+        },
+      })
+    );
+
+    expect(notifyAdminNewSurvey).toHaveBeenCalledWith("intake", "surveynotify@test.com");
   });
 });

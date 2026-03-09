@@ -45,4 +45,27 @@ describe("Services Page", () => {
       screen.getByText(/comprehensive 60–90 minute consultation/)
     ).toBeInTheDocument();
   });
+
+  it("renders the pricing section heading", () => {
+    render(<ServicesPage />);
+    expect(screen.getByText("Investment in Your Health")).toBeInTheDocument();
+  });
+
+  it("renders all pricing items with price and duration", () => {
+    render(<ServicesPage />);
+    expect(screen.getByText("Initial Consultation")).toBeInTheDocument();
+    expect(screen.getByText("$250")).toBeInTheDocument();
+    expect(screen.getByText("60–90 minutes")).toBeInTheDocument();
+
+    expect(screen.getByText("Follow-up Session")).toBeInTheDocument();
+    expect(screen.getByText("$150")).toBeInTheDocument();
+
+    expect(screen.getByText("Extended Follow-up")).toBeInTheDocument();
+    expect(screen.getByText("$200")).toBeInTheDocument();
+  });
+
+  it("renders the health fund rebates note", () => {
+    render(<ServicesPage />);
+    expect(screen.getByText(/Private health fund rebates/)).toBeInTheDocument();
+  });
 });

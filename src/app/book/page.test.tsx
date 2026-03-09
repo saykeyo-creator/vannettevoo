@@ -96,7 +96,11 @@ describe("Book Page", () => {
     if (dayButtons.length > 0) {
       fireEvent.click(dayButtons[0]);
       fireEvent.click(screen.getByText(/Continue —/));
-      fireEvent.click(screen.getByText("9:00 AM"));
+      // Pick whatever time slot is first available (not hardcoded — slots vary by time of day)
+      const timeSlots = screen.getAllByRole("button").filter(
+        (btn) => /^\d{1,2}:\d{2}\s?(AM|PM)$/.test(btn.textContent?.trim() ?? "")
+      );
+      fireEvent.click(timeSlots[0]);
       fireEvent.click(screen.getByText("Continue"));
       // Form fields should now be visible with htmlFor
       const fullNameLabel = screen.getByText("Full Name", { selector: "label" });
@@ -113,13 +117,16 @@ describe("Book Page", () => {
       );
     const days = getSelectableDays();
     if (days.length >= 2) {
-      const firstDayText = days[0].textContent;
       const secondDayText = days[1].textContent;
-      // Select first date, go to time step, select a time
+      // Select first date, go to time step, select the first available time
       fireEvent.click(days[0]);
       fireEvent.click(screen.getByText(/Continue —/));
-      fireEvent.click(screen.getByText("9:00 AM"));
-      expect(screen.getByText("9:00 AM").className).toContain("bg-teal-50");
+      const timeSlots = screen.getAllByRole("button").filter(
+        (btn) => /^\d{1,2}:\d{2}\s?(AM|PM)$/.test(btn.textContent?.trim() ?? "")
+      );
+      const selectedTimeText = timeSlots[0].textContent!.trim();
+      fireEvent.click(timeSlots[0]);
+      expect(screen.getByText(selectedTimeText).className).toContain("bg-teal-50");
       // Go back and pick a different date (re-query since DOM re-rendered)
       fireEvent.click(screen.getByText("Back"));
       const freshDays = getSelectableDays();
@@ -127,8 +134,13 @@ describe("Book Page", () => {
       fireEvent.click(secondDay!);
       // Go to time step again — time should be cleared
       fireEvent.click(screen.getByText(/Continue —/));
-      const timeBtn = screen.getByText("9:00 AM");
-      expect(timeBtn.className).not.toContain("bg-teal-50");
+      const freshTimeSlots = screen.getAllByRole("button").filter(
+        (btn) => /^\d{1,2}:\d{2}\s?(AM|PM)$/.test(btn.textContent?.trim() ?? "")
+      );
+      // No time slot should have the selected highlight
+      for (const slot of freshTimeSlots) {
+        expect(slot.className).not.toContain("bg-teal-50");
+      }
     }
   });
 
@@ -161,7 +173,10 @@ describe("Book Page", () => {
     if (dayButtons.length > 0) {
       fireEvent.click(dayButtons[0]);
       fireEvent.click(screen.getByText(/Continue —/));
-      fireEvent.click(screen.getByText("9:00 AM"));
+      const timeSlots = screen.getAllByRole("button").filter(
+        (btn) => /^\d{1,2}:\d{2}\s?(AM|PM)$/.test(btn.textContent?.trim() ?? "")
+      );
+      fireEvent.click(timeSlots[0]);
       fireEvent.click(screen.getByText("Continue"));
       // Fill form
       fireEvent.change(screen.getByLabelText(/Full Name/), { target: { value: "Test" } });
@@ -193,7 +208,11 @@ describe("Book Page", () => {
     if (dayButtons.length > 0) {
       fireEvent.click(dayButtons[0]);
       fireEvent.click(screen.getByText(/Continue —/));
-      fireEvent.click(screen.getByText("9:00 AM"));
+      const timeSlots = screen.getAllByRole("button").filter(
+        (btn) => /^\d{1,2}:\d{2}\s?(AM|PM)$/.test(btn.textContent?.trim() ?? "")
+      );
+      const selectedTimeText = timeSlots[0].textContent!.trim();
+      fireEvent.click(timeSlots[0]);
       fireEvent.click(screen.getByText("Continue"));
       fireEvent.change(screen.getByLabelText(/Full Name/), { target: { value: "Test" } });
       fireEvent.change(screen.getByLabelText(/Email/), { target: { value: "t@t.com" } });
@@ -205,6 +224,7 @@ describe("Book Page", () => {
       // Date should be YYYY-MM-DD format, not ISO string with T/Z
       expect(body.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(body.date).not.toContain("T");
+      expect(body.time).toBe(selectedTimeText);
     }
   });
 

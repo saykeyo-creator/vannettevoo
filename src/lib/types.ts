@@ -127,6 +127,17 @@ export interface SiteContent {
         heading: string;
         paragraphs: string[];
       };
+      pricing: {
+        heading: string;
+        introText: string;
+        items: {
+          name: string;
+          duration: string;
+          price: string;
+          description: string;
+        }[];
+        note: string;
+      };
     };
     newPatient: {
       heading: string;
