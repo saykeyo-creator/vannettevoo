@@ -17,6 +17,10 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+vi.mock("next/navigation", () => ({
+  usePathname: vi.fn().mockReturnValue("/"),
+}));
+
 import Footer from "@/components/Footer";
 
 describe("Footer", () => {

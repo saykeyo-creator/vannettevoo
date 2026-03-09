@@ -20,13 +20,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen flex bg-slate-50">
-      {/* Mobile sidebar toggle */}
+      {/* Mobile sidebar toggle — positioned in header bar, top-right */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-3 left-3 z-50 p-2 bg-white rounded-lg border border-slate-200 shadow-sm"
+        className="md:hidden fixed top-3 right-4 z-50 p-2 text-slate-600"
         aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
       >
-        <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           {sidebarOpen ? (
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           ) : (
@@ -94,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main content */}
       <main className="flex-1 min-h-screen md:ml-0">
-        <div className="max-w-5xl mx-auto px-4 md:px-8 py-8 pt-14 md:pt-8">
+        <div className="max-w-5xl mx-auto px-4 md:px-8 py-8">
           {children}
         </div>
       </main>
